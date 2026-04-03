@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostMeninas — Gerador de Posts</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0d0d0d; color:#f0f0f4; min-height:100vh; }
+
+nav { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid #1e1e1e; background:#0d0d0d; position:sticky; top:0; z-index:10; }
+.logo { display:flex; align-items:center; gap:10px; }
+.logo-mark { width:34px; height:34px; background:linear-gradient(135deg,#f953c6,#b91d73); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+.logo-name { font-size:17px; font-weight:700; }
+.logo-name span { background:linear-gradient(135deg,#f953c6,#b91d73); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-badge { font-size:11px; color:#f953c6; background:rgba(249,83,198,0.1); border:1px solid rgba(249,83,198,0.25); padding:4px 12px; border-radius:20px; }
+
+.hero { padding:28px 32px 20px; border-bottom:1px solid #1e1e1e; }
+.hero h1 { font-size:20px; font-weight:700; margin-bottom:5px; }
+.hero p { font-size:13px; color:#555; line-height:1.6; max-width:600px; }
+
+.main { display:grid; grid-template-columns:300px 1fr; min-height:calc(100vh - 130px); }
+
+/* SIDEBAR */
+aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-direction:column; gap:20px; }
+.slabel { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:#444; margin-bottom:8px; }
+
+.inp { width:100%; padding:10px 13px; border-radius:10px; border:1px solid #2a2a2a; background:#141414; color:#f0f0f4; font-family:inherit; font-size:13px; transition:border 0.15s; resize:vertical; }
+.inp:focus { outline:none; border-color:rgba(249,83,198,0.4); }
+.inp::placeholder { color:#444; }
+
+.chip { display:flex; align-items:center; gap:8px; padding:8px 11px; border-radius:9px; cursor:pointer; border:1px solid #2a2a2a; font-size:12px; color:#666; background:#141414; font-family:inherit; transition:all 0.15s; text-align:left; width:100%; margin-bottom:4px; }
+.chip:hover { color:#f0f0f4; border-color:#3a3a3a; }
+.chip.on { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.3); color:#f953c6; }
+.chip .ico { font-size:15px; width:20px; text-align:center; }
+
+.hook-toggle { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:10px; border:1px solid #2a2a2a; background:#141414; cursor:pointer; }
+.hook-toggle-label { font-size:13px; color:#888; display:flex; align-items:center; gap:8px; }
+.toggle-switch { width:36px; height:20px; background:#2a2a2a; border-radius:10px; position:relative; transition:background 0.2s; }
+.toggle-switch.on { background:#f953c6; }
+.toggle-knob { width:16px; height:16px; background:#fff; border-radius:50%; position:absolute; top:2px; left:2px; transition:left 0.2s; }
+.toggle-switch.on .toggle-knob { left:18px; }
+
+.hook-options { background:#141414; border:1px solid #2a2a2a; border-radius:10px; padding:10px; margin-top:6px; display:none; }
+.hook-options.show { display:block; }
+.hook-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 10px; border-radius:7px; cursor:pointer; border:1px solid #2a2a2a; font-size:11px; color:#666; background:transparent; font-family:inherit; margin:3px; transition:all 0.15s; }
+.hook-chip.on { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.3); color:#f953c6; }
+
+.genbtn { display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg,#f953c6,#b91d73); color:#fff; border:none; padding:13px; border-radius:11px; font-weight:700; font-size:14px; cursor:pointer; width:100%; font-family:inherit; transition:all 0.15s; margin-top:auto; }
+.genbtn:hover { opacity:0.9; }
+.genbtn:disabled { opacity:0.5; cursor:not-allowed; }
+
+/* CONTENT */
+.content { display:flex; flex-direction:column; overflow:hidden; }
+.tabs { display:flex; border-bottom:1px solid #1e1e1e; padding:0 24px; }
+.tab { padding:13px 16px; font-size:13px; color:#555; cursor:pointer; border-bottom:2px solid transparent; background:none; border-top:none; border-left:none; border-right:none; font-family:inherit; transition:all 0.15s; }
+.tab.on { color:#f953c6; border-bottom-color:#f953c6; }
+
+.results { flex:1; overflow-y:auto; padding:24px 28px; }
+
+.empty { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:380px; gap:14px; text-align:center; }
+.empty-ico { font-size:44px; }
+.empty h2 { font-size:18px; font-weight:700; }
+.empty p { color:#555; font-size:13px; max-width:300px; line-height:1.65; }
+
+.loading { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:380px; gap:16px; }
+.ring { width:44px; height:44px; border:3px solid #1e1e1e; border-top-color:#f953c6; border-radius:50%; animation:spin 0.9s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.loading p { color:#555; font-size:13px; }
+
+.post-grid { display:flex; flex-direction:column; gap:20px; animation:up 0.4s ease; }
+@keyframes up { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* FORMAT BADGE */
+.format-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:4px; }
+.format-badge { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; }
+.fb-carrossel { background:rgba(59,130,246,0.1); color:#3b82f6; }
+.fb-reels { background:rgba(249,83,198,0.1); color:#f953c6; }
+.fb-stories { background:rgba(255,107,53,0.1); color:#ff6b35; }
+.fb-meme { background:rgba(200,242,48,0.1); color:#c8f230; }
+.post-meta { font-size:11px; color:#444; }
+
+/* CARDS */
+.section-card { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; }
+.section-title { font-size:11px; font-weight:600; letter-spacing:0.9px; text-transform:uppercase; color:#444; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; gap:6px; }
+
+/* GANCHO */
+.hook-box { background:linear-gradient(135deg,rgba(249,83,198,0.06),rgba(185,29,115,0.04)); border:1px solid rgba(249,83,198,0.2); border-radius:12px; padding:16px 18px; margin-bottom:8px; }
+.hook-box-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:#f953c6; margin-bottom:6px; }
+.hook-box-text { font-size:14px; line-height:1.6; color:#f0f0f4; font-weight:500; }
+
+/* SLIDES */
+.slides-wrap { display:flex; flex-direction:column; gap:10px; }
+.slide { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:14px 16px; }
+.slide-num { font-size:10px; font-weight:700; color:#444; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.8px; }
+.slide-titulo { font-size:13px; font-weight:700; color:#f0f0f4; margin-bottom:5px; }
+.slide-texto { font-size:13px; line-height:1.6; color:#aaa; margin-bottom:6px; }
+.slide-visual { font-size:11px; color:#555; font-style:italic; border-top:1px solid #222; padding-top:6px; margin-top:6px; }
+.slide-cta { background:linear-gradient(135deg,rgba(249,83,198,0.08),rgba(185,29,115,0.06)); border:1px solid rgba(249,83,198,0.2); }
+
+/* LEGENDA */
+.legenda-box { background:#1a1a1a; border-radius:10px; padding:16px; font-size:13.5px; line-height:1.8; color:#ccc; white-space:pre-wrap; }
+
+/* HASHTAGS */
+.hashtags-wrap { display:flex; flex-wrap:wrap; gap:6px; }
+.hashtag { background:#1a1a1a; border:1px solid #222; padding:4px 10px; border-radius:6px; font-size:12px; color:#888; }
+.hashtag.local { color:#f953c6; border-color:rgba(249,83,198,0.25); background:rgba(249,83,198,0.05); }
+
+/* TIMING */
+.timing-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.timing-item { background:#1a1a1a; border-radius:10px; padding:12px 14px; }
+.timing-label { font-size:10px; text-transform:uppercase; letter-spacing:0.8px; color:#444; margin-bottom:4px; }
+.timing-value { font-size:14px; font-weight:600; color:#f0f0f4; }
+.timing-obs { font-size:11px; color:#555; margin-top:3px; }
+
+/* CAPAS */
+.capas-wrap { display:flex; flex-direction:column; gap:8px; }
+.capa-item { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:12px 16px; display:flex; align-items:center; gap:12px; }
+.capa-num { width:24px; height:24px; background:rgba(249,83,198,0.1); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#f953c6; flex-shrink:0; }
+.capa-text { font-size:14px; font-weight:600; color:#f0f0f4; line-height:1.4; }
+
+/* EXPORT */
+.export-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.ebtn { padding:7px 14px; border-radius:8px; font-size:12px; cursor:pointer; border:1px solid #2a2a2a; background:#141414; color:#666; font-family:inherit; transition:all 0.15s; }
+.ebtn:hover { color:#f0f0f4; border-color:#3a3a3a; }
+.ebtn.primary { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.25); color:#f953c6; }
+
+.errbox { background:rgba(255,71,87,0.07); border:1px solid rgba(255,71,87,0.2); border-radius:10px; padding:14px 18px; color:#ff6b6b; font-size:13px; line-height:1.6; }
+
+::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
+@media(max-width:768px){ .main{grid-template-columns:1fr} aside{border-right:none;border-bottom:1px solid #1e1e1e} .hero,.results{padding:18px} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark">📱</div>
+    <span class="logo-name">Post<span>Meninas</span></span>
+  </div>
+  <div class="nav-badge">✨ Gerador de Posts</div>
+</nav>
+
+<div class="hero">
+  <h1>Da tendência ao post viral em 1 clique</h1>
+  <p>Cole uma tendência do FoodPulse ou escreva um tema — o PostMeninas cria o post completo com gancho, slides, legenda e hashtags para o Hamburguer das Meninas.</p>
+</div>
+
+<div class="main">
+  <aside>
+    <div>
+      <div class="slabel">Tema ou Tendência</div>
+      <textarea class="inp" id="temaInput" rows="4" placeholder="Ex: Gen Z está evitando álcool e preferindo bebidas funcionais... ou cole direto do FoodPulse!"></textarea>
+    </div>
+
+    <div>
+      <div class="slabel">Formato do Post</div>
+      <button class="chip on" data-fmt="carrossel" onclick="setFmt(this)"><span class="ico">🎠</span>Carrossel (slides)</button>
+      <button class="chip" data-fmt="reels" onclick="setFmt(this)"><span class="ico">🎬</span>Roteiro de Reels</button>
+      <button class="chip" data-fmt="stories" onclick="setFmt(this)"><span class="ico">⭕</span>Stories</button>
+      <button class="chip" data-fmt="meme" onclick="setFmt(this)"><span class="ico">😂</span>Meme</button>
+    </div>
+
+    <div>
+      <div class="slabel">Abordagem</div>
+      <button class="chip on" data-ab="nacional" onclick="toggleAb(this)"><span class="ico">🌍</span>Tema nacional</button>
+      <button class="chip on" data-ab="local" onclick="toggleAb(this)"><span class="ico">📍</span>Toque de Camboriú</button>
+    </div>
+
+    <div>
+      <div class="slabel">Hook de Emoção</div>
+      <div class="hook-toggle" onclick="toggleHook()">
+        <div class="hook-toggle-label"><span>🎣</span> Usar hook emocional</div>
+        <div class="toggle-switch" id="hookSwitch"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="hook-options" id="hookOptions">
+        <div style="font-size:11px;color:#444;margin-bottom:8px;">Tipo de emoção:</div>
+        <button class="hook-chip on" data-hook="medo" onclick="toggleHookType(this)">😨 Medo</button>
+        <button class="hook-chip on" data-hook="urgencia" onclick="toggleHookType(this)">⚡ Urgência</button>
+        <button class="hook-chip on" data-hook="perda" onclick="toggleHookType(this)">📉 Perda</button>
+        <button class="hook-chip" data-hook="curiosidade" onclick="toggleHookType(this)">🤔 Curiosidade</button>
+        <button class="hook-chip" data-hook="surpresa" onclick="toggleHookType(this)">😱 Surpresa</button>
+      </div>
+    </div>
+
+    <button class="genbtn" id="genBtn" onclick="generatePost()">✨ Gerar Post</button>
+  </aside>
+
+  <div class="content">
+    <div class="tabs">
+      <button class="tab on" id="tab-post" onclick="switchTab('post')">Post Completo</button>
+      <button class="tab" id="tab-legenda" onclick="switchTab('legenda')">Só a Legenda</button>
+      <button class="tab" id="tab-raw" onclick="switchTab('raw')">Dados Brutos</button>
+    </div>
+    <div class="results" id="results">
+      <div class="empty">
+        <div class="empty-ico">📱</div>
+        <h2>Pronta para criar</h2>
+        <p>Cole uma tendência do FoodPulse ou escreva um tema e clique em <strong>Gerar Post</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let fmt = 'carrossel';
+let hookOn = false;
+let lastData = null;
+let activeTab = 'post';
+
+const MSGS = ['Analisando a tendência...','Criando o gancho emocional...','Escrevendo os slides...','Montando a legenda...','Escolhendo as hashtags...'];
+
+function setFmt(el) {
+  fmt = el.dataset.fmt;
+  document.querySelectorAll('.chip[data-fmt]').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function toggleAb(el) { el.classList.toggle('on'); }
+
+function toggleHook() {
+  hookOn = !hookOn;
+  const sw = document.getElementById('hookSwitch');
+  sw.classList.toggle('on', hookOn);
+  document.getElementById('hookOptions').classList.toggle('show', hookOn);
+}
+
+function toggleHookType(el) { el.classList.toggle('on'); }
+
+function getActiveHooks() {
+  if (!hookOn) return [];
+  return [...document.querySelectorAll('.hook-chip.on')].map(h => h.dataset.hook);
+}
+
+function getAbordagem() {
+  const abs = [...document.querySelectorAll('.chip[data-ab].on')].map(a => a.dataset.ab);
+  if (abs.includes('nacional') && abs.includes('local')) return 'nacional com toque local de Camboriú/SC';
+  if (abs.includes('local')) return 'focado em Camboriú e litoral catarinense';
+  return 'nacional, sem foco regional específico';
+}
+
+function switchTab(t) {
+  activeTab = t;
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-' + t).classList.add('on');
+  if (lastData) renderResults(lastData);
+}
+
+async function generatePost() {
+  const tema = document.getElementById('temaInput').value.trim();
+  if (!tema) { alert('Cole uma tendência ou escreva um tema!'); return; }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  lastData = null;
+
+  let mi = 0;
+  const el = document.getElementById('results');
+  el.innerHTML = `<div class="loading"><div class="ring"></div><p id="lmsg">${MSGS[0]}</p></div>`;
+  const iv = setInterval(() => { mi=(mi+1)%MSGS.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=MSGS[mi]; btn.innerHTML=`⟳ ${MSGS[mi]}`; }, 2000);
+
+  const hooks = getActiveHooks();
+  const abordagem = getAbordagem();
+  const hookTxt = hooks.length ? `Use hooks de emoção do tipo: ${hooks.join(', ')}. Seja ético — baseie em riscos reais, ofereça sempre uma solução, use tom de alerta (não ameaça).` : '';
+
+  const fmtInstrucoes = {
+    carrossel: `Crie um carrossel de 6 slides. Slide 1 = gancho que para o scroll (capa). Slides 2-5 = desenvolvimento. Slide 6 = CTA. Cada slide deve fazer sentido sozinho e puxar para o próximo. Para cada slide: titulo_slide (máx 6 palavras, caixa alta), texto_slide (1-2 linhas), instrucao_visual (como diagramar visualmente).`,
+    reels: `Crie um roteiro de Reels de 30-60 segundos. 6 "slides" = cenas do vídeo. Slide 1 = abertura impactante (0-3s). Slides 2-5 = desenvolvimento. Slide 6 = CTA final. Para cada cena: titulo_slide (o que acontece na cena), texto_slide (fala ou texto na tela), instrucao_visual (o que mostrar visualmente).`,
+    stories: `Crie uma sequência de 6 stories. Slide 1 = gancho. Slides 2-4 = conteúdo. Slide 5 = engajamento (enquete ou pergunta). Slide 6 = CTA. Para cada story: titulo_slide (tipo do story), texto_slide (texto principal), instrucao_visual (elemento visual ou interativo).`,
+    meme: `Crie 3 opções de meme sobre o tema. Cada "slide" é uma opção de meme. Para cada: titulo_slide (formato do meme), texto_slide (texto de cima + texto de baixo), instrucao_visual (imagem ou template sugerido).`
+  };
+
+  const prompt = `Você é especialista em marketing de conteúdo para Instagram, com foco em hamburguerias artesanais brasileiras.
+
+Crie um post completo para o Instagram do "Hamburguer das Meninas" — hamburgueria aconchegante e acolhedor de Camboriú/SC.
+
+TEMA/TENDÊNCIA: ${tema}
+
+FORMATO: ${fmt}
+${fmtInstrucoes[fmt]}
+
+ABORDAGEM: ${abordagem}
+
+TOM DE VOZ: Aconchegante, acolhedor, com personalidade feminina e autêntica. Mistura português formal com informal. Próximo, humano, nunca robótico. Nunca genérico ou motivacional vazio.
+
+${hookTxt}
+
+REGRA DE OURO: O post NÃO vende hamburguer diretamente. Fala de cultura, comportamento e tendência usando a hamburgueria como ponte. As pessoas compartilham porque se identificam — não porque viram propaganda.
+
+Responda SOMENTE com JSON válido:
+
+{
+  "formato": "${fmt}",
+  "tema_final": "Como o tema foi adaptado para a marca",
+  "capas": [
+    "Opção 1 de título de capa (máx 6 palavras)",
+    "Opção 2 de título de capa (máx 6 palavras)",
+    "Opção 3 de título de capa (máx 6 palavras)"
+  ],
+  "gancho": "O hook principal que para o scroll — frase de impacto",
+  "slides": [
+    {
+      "numero": 1,
+      "titulo_slide": "TÍTULO EM CAIXA ALTA",
+      "texto_slide": "Texto de 1-2 linhas do slide",
+      "instrucao_visual": "Como diagramar ou o que mostrar visualmente"
+    }
+  ],
+  "legenda": "Legenda completa para o post com emojis, quebras de linha naturais e CTA no final. Tom aconchegante.",
+  "hashtags_nicho": ["#hashtag1", "#hashtag2"],
+  "hashtags_local": ["#Camboriu", "#LitoralSC"],
+  "hashtags_tendencia": ["#hashtag1", "#hashtag2"],
+  "melhor_dia": "Quinta ou Sexta",
+  "melhor_horario": "18h-20h",
+  "dica_horario": "Por quê esse horário funciona",
+  "dica_engajamento": "Uma dica específica para aumentar o engajamento desse post"
+}
+
+JSON puro, sem texto antes ou depois.`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
+    const data = await res.json();
+    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    let js = txt.replace(/```json|```/g,'').trim();
+    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
+    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
+    const parsed = JSON.parse(js);
+    parsed._ts = new Date().toISOString();
+    lastData = parsed;
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '✨ Gerar Novo Post';
+    renderResults(parsed);
+  } catch(err) {
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '✨ Tentar Novamente';
+    el.innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
+  }
+}
+
+const FMT_LABELS = { carrossel:'🎠 Carrossel', reels:'🎬 Reels', stories:'⭕ Stories', meme:'😂 Meme' };
+const FMT_CLASS = { carrossel:'fb-carrossel', reels:'fb-reels', stories:'fb-stories', meme:'fb-meme' };
+
+function renderResults(d) {
+  const el = document.getElementById('results');
+
+  if (activeTab === 'raw') {
+    el.innerHTML = `<pre style="font-size:11px;color:#555;line-height:1.7;white-space:pre-wrap;word-break:break-word;">${JSON.stringify(d,null,2)}</pre>`;
+    return;
+  }
+
+  if (activeTab === 'legenda') {
+    el.innerHTML = `<div class="post-grid">
+      <div class="export-row">
+        <button class="ebtn primary" onclick="cpText(document.querySelector('.legenda-box').textContent)">📋 Copiar legenda</button>
+      </div>
+      <div class="section-card">
+        <div class="section-title">✍️ Legenda pronta</div>
+        <div class="legenda-box">${d.legenda||''}</div>
+      </div>
+      <div class="section-card">
+        <div class="section-title">#️⃣ Hashtags</div>
+        <div class="hashtags-wrap">
+          ${(d.hashtags_nicho||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
+          ${(d.hashtags_tendencia||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
+          ${(d.hashtags_local||[]).map(h=>`<span class="hashtag local">${h}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  const now = new Date(d._ts).toLocaleString('pt-BR');
+  let h = `<div class="post-grid">
+    <div class="export-row">
+      <button class="ebtn primary" onclick="copyAll()">📋 Copiar tudo</button>
+      <button class="ebtn" onclick="exportTxt()">⬇ Exportar .txt</button>
+    </div>
+
+    <div class="format-header">
+      <span class="format-badge ${FMT_CLASS[d.formato]||'fb-carrossel'}">${FMT_LABELS[d.formato]||d.formato}</span>
+      <span class="post-meta">Gerado em ${now}</span>
+    </div>`;
+
+  if (d.tema_final) {
+    h += `<div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 16px;font-size:13px;color:#888;line-height:1.6;">
+      <strong style="color:#555;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;">Tema adaptado</strong><br>${d.tema_final}
+    </div>`;
+  }
+
+  if (d.gancho) {
+    h += `<div class="hook-box">
+      <div class="hook-box-label">🎣 Gancho principal</div>
+      <div class="hook-box-text">"${d.gancho}"</div>
+    </div>`;
+  }
+
+  if (d.capas?.length) {
+    h += `<div class="section-card">
+      <div class="section-title">🖼️ 3 opções de capa</div>
+      <div class="capas-wrap">${d.capas.map((c,i)=>`<div class="capa-item"><div class="capa-num">${i+1}</div><div class="capa-text">${c}</div></div>`).join('')}</div>
+    </div>`;
+  }
+
+  if (d.slides?.length) {
+    const isCTA = (s) => s.numero === d.slides.length;
+    h += `<div class="section-card">
+      <div class="section-title">📋 ${d.formato === 'reels' ? 'Roteiro cena a cena' : d.formato === 'stories' ? 'Sequência de stories' : d.formato === 'meme' ? 'Opções de meme' : 'Slides do carrossel'}</div>
+      <div class="slides-wrap">${d.slides.map(s=>`
+        <div class="slide ${isCTA(s)?'slide-cta':''}">
+          <div class="slide-num">Slide ${s.numero} ${isCTA(s)?'· CTA':''}</div>
+          <div class="slide-titulo">${s.titulo_slide||''}</div>
+          <div class="slide-texto">${s.texto_slide||''}</div>
+          ${s.instrucao_visual?`<div class="slide-visual">📐 ${s.instrucao_visual}</div>`:''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (d.legenda) {
+    h += `<div class="section-card">
+      <div class="section-title" style="justify-content:space-between;">
+        <span>✍️ Legenda</span>
+        <button class="ebtn" style="margin:0" onclick="cpText(\`${d.legenda.replace(/`/g,"'")}\`)">Copiar</button>
+      </div>
+      <div class="legenda-box">${d.legenda}</div>
+    </div>`;
+  }
+
+  const allHashtags = [...(d.hashtags_nicho||[]), ...(d.hashtags_tendencia||[]), ...(d.hashtags_local||[])];
+  if (allHashtags.length) {
+    h += `<div class="section-card">
+      <div class="section-title" style="justify-content:space-between;">
+        <span>#️⃣ Hashtags</span>
+        <button class="ebtn" style="margin:0" onclick="cpText('${allHashtags.join(' ')}')">Copiar</button>
+      </div>
+      <div class="hashtags-wrap">
+        ${(d.hashtags_nicho||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
+        ${(d.hashtags_tendencia||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
+        ${(d.hashtags_local||[]).map(h=>`<span class="hashtag local">${h}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (d.melhor_dia) {
+    h += `<div class="section-card">
+      <div class="section-title">📅 Melhor momento para postar</div>
+      <div class="timing-grid">
+        <div class="timing-item"><div class="timing-label">Dia</div><div class="timing-value">${d.melhor_dia}</div></div>
+        <div class="timing-item"><div class="timing-label">Horário</div><div class="timing-value">${d.melhor_horario||''}</div></div>
+      </div>
+      ${d.dica_horario?`<div style="font-size:12px;color:#555;margin-top:10px;line-height:1.6;">${d.dica_horario}</div>`:''}
+      ${d.dica_engajamento?`<div style="background:#1a1a1a;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:13px;color:#aaa;line-height:1.6;"><strong style="color:#f953c6;">💡 Dica:</strong> ${d.dica_engajamento}</div>`:''}
+    </div>`;
+  }
+
+  h += '</div>';
+  el.innerHTML = h;
+}
+
+function cpText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const tmp = document.createElement('div');
+    tmp.style.cssText = 'position:fixed;top:20px;right:20px;background:#f953c6;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;z-index:999;font-family:inherit;';
+    tmp.textContent = 'Copiado! ✓';
+    document.body.appendChild(tmp);
+    setTimeout(() => tmp.remove(), 1500);
+  });
+}
+
+function copyAll() {
+  if (!lastData) return;
+  const d = lastData;
+  let txt = `POSTMENINAS — ${FMT_LABELS[d.formato]||d.formato}\nGerado em: ${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
+  txt += `TEMA: ${d.tema_final}\n\nGANCHO: "${d.gancho}"\n\n`;
+  if (d.capas) txt += `OPÇÕES DE CAPA:\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
+  if (d.slides) txt += `SLIDES:\n${d.slides.map(s=>`Slide ${s.numero}: ${s.titulo_slide}\n${s.texto_slide}\nVisual: ${s.instrucao_visual||''}`).join('\n\n')}\n\n`;
+  txt += `LEGENDA:\n${d.legenda}\n\n`;
+  const tags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
+  txt += `HASHTAGS:\n${tags.join(' ')}\n\n`;
+  txt += `MELHOR MOMENTO: ${d.melhor_dia} às ${d.melhor_horario}\n${d.dica_horario||''}`;
+  navigator.clipboard.writeText(txt).then(() => alert('Post completo copiado!'));
+}
+
+function exportTxt() {
+  if (!lastData) return;
+  const d = lastData;
+  let txt = `POSTMENINAS — ${FMT_LABELS[d.formato]||d.formato}\nGerado em: ${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
+  txt += `TEMA ADAPTADO\n${d.tema_final}\n\nGANCHO PRINCIPAL\n"${d.gancho}"\n\n`;
+  if (d.capas) txt += `OPÇÕES DE CAPA\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
+  if (d.slides) txt += `SLIDES\n${d.slides.map(s=>`--- Slide ${s.numero} ---\n${s.titulo_slide}\n${s.texto_slide}\nVisual: ${s.instrucao_visual||''}`).join('\n\n')}\n\n`;
+  txt += `LEGENDA COMPLETA\n${d.legenda}\n\n`;
+  const tags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
+  txt += `HASHTAGS\n${tags.join(' ')}\n\n`;
+  txt += `TIMING\nDia: ${d.melhor_dia}\nHorário: ${d.melhor_horario}\n${d.dica_horario||''}\n\nDICA DE ENGAJAMENTO\n${d.dica_engajamento||''}`;
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt);
+  a.download = `postmeninas_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>
