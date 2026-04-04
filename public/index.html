@@ -168,19 +168,13 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
     </div>
 
     <div>
-      <div class="slabel">Hook de Emoção</div>
-      <div class="hook-toggle" onclick="toggleHook()">
-        <div class="hook-toggle-label"><span>🎣</span> Usar hook emocional</div>
-        <div class="toggle-switch" id="hookSwitch"><div class="toggle-knob"></div></div>
-      </div>
-      <div class="hook-options" id="hookOptions">
-        <div style="font-size:11px;color:#444;margin-bottom:8px;">Tipo de emoção:</div>
-        <button class="hook-chip on" data-hook="medo" onclick="toggleHookType(this)">😨 Medo</button>
-        <button class="hook-chip on" data-hook="urgencia" onclick="toggleHookType(this)">⚡ Urgência</button>
-        <button class="hook-chip on" data-hook="perda" onclick="toggleHookType(this)">📉 Perda</button>
-        <button class="hook-chip" data-hook="curiosidade" onclick="toggleHookType(this)">🤔 Curiosidade</button>
-        <button class="hook-chip" data-hook="surpresa" onclick="toggleHookType(this)">😱 Surpresa</button>
-      </div>
+      <div class="slabel">Padrão de Hook</div>
+      <button class="chip on" data-fmt-hook="morte" onclick="toggleHookPad(this)"><span class="ico">💀</span>A Morte de X</button>
+      <button class="chip" data-fmt-hook="geracao" onclick="toggleHookPad(this)"><span class="ico">📱</span>Por que [Geração] está...</button>
+      <button class="chip" data-fmt-hook="investigando" onclick="toggleHookPad(this)"><span class="ico">🔍</span>Investigando [fenômeno]</button>
+      <button class="chip" data-fmt-hook="contraste" onclick="toggleHookPad(this)"><span class="ico">⚡</span>Contraste / Antítese</button>
+      <button class="chip" data-fmt-hook="pop" onclick="toggleHookPad(this)"><span class="ico">🎬</span>Como [elemento pop]...</button>
+      <button class="chip" data-fmt-hook="existencial" onclick="toggleHookPad(this)"><span class="ico">🤔</span>Provocação existencial</button>
     </div>
 
     <button class="genbtn" id="genBtn" onclick="generatePost()">✨ Gerar Post</button>
@@ -218,19 +212,28 @@ function setFmt(el) {
 
 function toggleAb(el) { el.classList.toggle('on'); }
 
-function toggleHook() {
-  hookOn = !hookOn;
-  const sw = document.getElementById('hookSwitch');
-  sw.classList.toggle('on', hookOn);
-  document.getElementById('hookOptions').classList.toggle('show', hookOn);
+function toggleHookPad(el) {
+  document.querySelectorAll('.chip[data-fmt-hook]').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
 }
 
+function getHookPad() {
+  const el = document.querySelector('.chip[data-fmt-hook].on');
+  if (!el) return '';
+  const map = {
+    morte: 'A Morte de X — hook que declara o fim de algo, média 57k likes',
+    geracao: 'Por que [Geração] está [comportamento inesperado] — ativa identidade + curiosidade, média 28k likes',
+    investigando: 'Investigando [fenômeno] — tom jornalístico/documental, gera curiosidade por profundidade, média 18k likes',
+    contraste: 'Contraste/Antítese — dois pólos em tensão no mesmo hook, média 22k likes',
+    pop: 'Como [elemento pop/marca/personagem] [ação inesperada] — referência pop como âncora, média 20k likes',
+    existencial: 'Provocação existencial — pergunta retórica que ativa reflexão profunda, média 14k likes'
+  };
+  return map[el.dataset.fmtHook] || '';
+}
+
+function toggleHook() {}
 function toggleHookType(el) { el.classList.toggle('on'); }
-
-function getActiveHooks() {
-  if (!hookOn) return [];
-  return [...document.querySelectorAll('.hook-chip.on')].map(h => h.dataset.hook);
-}
+function getActiveHooks() { return []; }
 
 function getAbordagem() {
   const abs = [...document.querySelectorAll('.chip[data-ab].on')].map(a => a.dataset.ab);
@@ -259,9 +262,9 @@ async function generatePost() {
   el.innerHTML = `<div class="loading"><div class="ring"></div><p id="lmsg">${MSGS[0]}</p></div>`;
   const iv = setInterval(() => { mi=(mi+1)%MSGS.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=MSGS[mi]; btn.innerHTML=`⟳ ${MSGS[mi]}`; }, 2000);
 
-  const hooks = getActiveHooks();
+  const hookPad = getHookPad();
+  const hookTxt = hookPad ? `PADRÃO DE HOOK ESCOLHIDO: ${hookPad}. Use esse padrão na headline e no gancho principal.` : '';
   const abordagem = getAbordagem();
-  const hookTxt = hooks.length ? `Use hooks de emoção do tipo: ${hooks.join(', ')}. Seja ético — baseie em riscos reais, ofereça sempre uma solução, use tom de alerta (não ameaça).` : '';
 
   const fmtInstrucoes = {
     carrossel: `Crie um carrossel de 6 slides. Slide 1 = gancho que para o scroll (capa). Slides 2-5 = desenvolvimento. Slide 6 = CTA. Cada slide deve fazer sentido sozinho e puxar para o próximo. Para cada slide: titulo_slide (máx 6 palavras, caixa alta), texto_slide (1-2 linhas), instrucao_visual (como diagramar visualmente).`,
@@ -270,23 +273,118 @@ async function generatePost() {
     meme: `Crie 3 opções de meme sobre o tema. Cada "slide" é uma opção de meme. Para cada: titulo_slide (formato do meme), texto_slide (texto de cima + texto de baixo), instrucao_visual (imagem ou template sugerido).`
   };
 
-  const prompt = `Você é especialista em marketing de conteúdo para Instagram, com foco em hamburguerias artesanais brasileiras.
+  const prompt = `Você é a Máquina de Carrosséis — um sistema editorial calibrado por dados reais de 1.168 posts analisados. Seu padrão de comparação não é "está correto?" mas sim "um repórter da Folha de S.Paulo escreveria assim?". Você tem opinião editorial e rejeita qualquer AI slop antes de entregar.
 
-Crie um post completo para o Instagram do "Hamburguer das Meninas" — hamburgueria aconchegante e acolhedor de Camboriú/SC.
-
+MARCA: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC.
 TEMA/TENDÊNCIA: ${tema}
-
 FORMATO: ${fmt}
-${fmtInstrucoes[fmt]}
-
 ABORDAGEM: ${abordagem}
-
-TOM DE VOZ: Aconchegante, acolhedor, com personalidade feminina e autêntica. Mistura português formal com informal. Próximo, humano, nunca robótico. Nunca genérico ou motivacional vazio.
-
 ${hookTxt}
 
-REGRA DE OURO: O post NÃO vende hamburguer diretamente. Fala de cultura, comportamento e tendência usando a hamburgueria como ponte. As pessoas compartilham porque se identificam — não porque viram propaganda.
+TOM DE VOZ: Aconchegante, acolhedor, personalidade feminina e autêntica. Mistura português formal com informal. Próximo, humano. NUNCA genérico, NUNCA motivacional vazio, NUNCA robótico.
 
+REGRA DE OURO: O post NÃO vende hamburguer diretamente. Fala de cultura, comportamento e tendência usando a hamburgueria como ponte. Pessoas compartilham porque se identificam — não porque viram propaganda.
+
+══════════════════════════════════════
+ETAPA 1 — TRIAGEM INTERNA (executar antes de qualquer copy)
+Analisar o tema em 4 camadas:
+• Transformação: o que mudou, com costura e consequência
+• Fricção central: a tensão real do fenômeno
+• Ângulo narrativo dominante: a leitura mais forte para o post
+• Evidências: dados, fatos, exemplos observáveis (A, B, C)
+
+══════════════════════════════════════
+ETAPA 2 — HEADLINES (gerar 3 opções de capa)
+Cada opção DEVE usar um padrão diferente abaixo. Validar CADA headline pelo checklist antes de incluir.
+
+PADRÕES COM LIFT POSITIVO COMPROVADO:
+• "A Morte de X: Como Y Nos Tornou Z" — lift +119%, média 57k likes
+  Ex: "A Morte do Gosto Pessoal: Como a Dopamina Digital Nos Tornou Indiferentes" — 115k
+• "Por que [Geração] está [comportamento inesperado]?" — lift +119%, média 28k likes
+  Ex: "Por que os Millennials Estão Sofrendo com Crises de Meia-Idade aos 30 Anos?" — 53k
+• "Investigando [fenômeno surpreendente]" — lift +99%, média 18k likes
+  Ex: "Investigando a Ascensão das Festas Diurnas em Coffee Shops" — 27k
+• "[Enquadramento]: [Hook]" formato dois-pontos — média 40k likes
+  Ex: "O fenômeno brasileiro que quebrou o algoritmo: um frei às 4h virou o streamer mais assistido" — 13k
+• Contraste/Antítese — dois pólos em tensão, média 22k likes
+• Provocação existencial — pergunta retórica de reflexão profunda, média 14k likes
+
+FORMATO RÍGIDO — Investigação Cultural:
+Estrutura: [Reenquadramento provocativo]: [Hook de curiosidade]
+✅ CORRETO: "A corrida virou a nova balada: por que a Gen Z trocou o bar pelo asfalto às 6h"
+❌ ERRADO: "A corrida está crescendo no Brasil" — declaração direta sem tensão
+
+CHECKLIST DE REJEIÇÃO (reprovar e reescrever se cair em qualquer um):
+❌ Declaração direta sem provocar curiosidade
+❌ Começa com "descubra", "saiba", "conheça"
+❌ "a ascensão de" / "o impacto de" / "X mudou para sempre"
+❌ Motivacional vazio — sem dado, sem conflito
+❌ Qualquer conta poderia ter escrito sem trocar uma palavra
+
+LIFTS NEGATIVOS — evitar:
+• Declaração Direta: -29%
+• Revelação genérica ("Descubra/Saiba/Conheça"): -42%
+• Lista/Dicas/Número: formato morto
+
+GATILHOS — cada headline deve ativar pelo menos 2:
+Nostalgia · Medo/Alerta · Indignação · Identidade · Curiosidade · Aspiração
+
+══════════════════════════════════════
+ETAPA 3 — ESPINHA DORSAL
+Antes de escrever os slides, definir:
+• Hook: contextualiza a tensão da headline
+• Mecanismo: por que o fenômeno acontece
+• Prova: A), B), C) com base observável e dados verificáveis
+• Aplicação: consequência para o mundo real da audiência
+• Direção: próximo passo lógico
+
+══════════════════════════════════════
+ETAPA 4 — COPY DOS SLIDES
+Estrutura narrativa obrigatória (${fmt === 'carrossel' ? '9 slides' : fmt === 'reels' ? '6 cenas' : fmt === 'stories' ? '6 stories' : '3 opções'}):
+
+${fmtInstrucoes[fmt]}
+
+ANATOMIA DOS SLIDES (carrossel):
+• Slide 1 — Capa (headline que para o scroll — usar a melhor das 3 opções)
+• Slide 2 — Hook/Problema (dark) — cria tensão, contradição ou dado surpreendente
+• Slide 3 — Contexto/Mecanismo pt.1 (light) — explica o motor por trás do fenômeno
+• Slide 4 — Mecanismo pt.2 (dark) — aprofunda
+• Slide 5 — Prova/Dados (light) — ancora em dados concretos com fonte
+• Slide 6 — Expansão/Virada (dark) — aprofunda ou vira a perspectiva
+• Slide 7 — Aplicação prática (light) — traduz para o mundo real
+• Slide 8 — Direção/CTA (gradient) — call to action diretivo
+• Slide 9 — Fechamento (light) — virada temática genuína, NUNCA resumo
+
+TAGS dos slides: frases concretas que ancoram o conteúdo.
+✅ CORRETO: "O dado que ninguém comenta" / "Por que acontece" / "Na prática"
+❌ ERRADO: "A virada que ninguém esperava" / "Quem entende sai na frente" / "O futuro é agora"
+
+══════════════════════════════════════
+7 PARÂMETROS DE QUALIDADE — validar cada bloco (nota mínima 8/10):
+1. Gramática — artigos presentes em TODOS os substantivos, concordância correta
+2. Fluidez — cada bloco soa como parágrafo de reportagem com conectivos naturais
+3. Anti-AI Slop — zero estruturas binárias, zero cacoetes proibidos
+4. Fatos verificados — todo número tem fonte quando possível
+5. Estrutura — promessas do hook cumpridas antes do CTA
+6. Densidade — âncoras concretas (nome, número, mecanismo específico)
+7. Tom editorial — coloquial direto como jornalista, sem 2ª pessoa no corpo dos slides
+
+5 TESTES FINAIS:
+• Teste da Folha: soaria natural ou traduzido do inglês?
+• Teste da substituição: funciona com qualquer outro sujeito? Se sim → genérico
+• Teste da promessa: todo claim do hook foi cumprido?
+• Teste do artigo: todo substantivo tem artigo?
+• Teste binário: buscou ativamente por "não é X", "sem X", "menos X", "de forma X"?
+
+══════════════════════════════════════
+FILTRO ANTI-AI SLOP — PROIBIDO ABSOLUTAMENTE:
+"Não é X, é Y" / "E isso muda tudo" / "No fim das contas" / "Ao final do dia" / "A pergunta fica:" / "De forma X" / "Cada vez mais" / "Em um mundo onde" / "Vivemos em uma era" / "É preciso" / "Você precisa" / "Simplesmente" / "Basicamente"
+Estruturas binárias: "X diminui, Y acelera" / "Menos X, mais Y" / "Antes: X. Agora: Y." / "Sem X. Sem Y."
+Aberturas proibidas: "Hoje vamos falar sobre..." / "Neste carrossel você vai aprender..." / "Como você provavelmente sabe..."
+CTA proibido: "Espero que tenha gostado!" / "Obrigado por acompanhar" / "Não esqueça de seguir"
+CTA correto: diretivo — "Comenta X, recebe Y" — sem agradecimento
+
+══════════════════════════════════════
 Responda SOMENTE com JSON válido:
 
 {
