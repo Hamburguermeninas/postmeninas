@@ -127,6 +127,44 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
 
 .errbox { background:rgba(255,71,87,0.07); border:1px solid rgba(255,71,87,0.2); border-radius:10px; padding:14px 18px; color:#ff6b6b; font-size:13px; line-height:1.6; }
 
+/* GANCHOS */
+.ganchos-grid { display:flex; flex-direction:column; gap:24px; animation:up 0.4s ease; }
+.ganchos-categoria { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; }
+.ganchos-cat-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #1e1e1e; }
+.ganchos-cat-ico { font-size:20px; }
+.ganchos-cat-title { font-size:14px; font-weight:700; color:#f0f0f4; }
+.ganchos-cat-desc { font-size:11px; color:#555; margin-top:2px; }
+.gancho-item { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:14px 16px; margin-bottom:8px; }
+.gancho-item:last-child { margin-bottom:0; }
+.gancho-texto { font-size:14px; font-weight:600; color:#f0f0f4; line-height:1.5; margin-bottom:10px; }
+.gancho-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.gatilho-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+.gatilho-curiosidade { background:rgba(200,242,48,0.08); color:#c8f230; }
+.gatilho-medo { background:rgba(255,71,87,0.08); color:#ff4757; }
+.gatilho-identidade { background:rgba(59,130,246,0.08); color:#3b82f6; }
+.gatilho-indignacao { background:rgba(255,107,53,0.08); color:#ff6b35; }
+.gatilho-nostalgia { background:rgba(167,139,250,0.08); color:#a78bfa; }
+.gatilho-aspiracao { background:rgba(20,184,166,0.08); color:#14b8a6; }
+.gatilho-urgencia { background:rgba(249,83,198,0.08); color:#f953c6; }
+.gatilho-surpresa { background:rgba(200,242,48,0.08); color:#c8f230; }
+.gancho-primeiras { font-size:10px; color:#444; font-style:italic; }
+.usar-gancho-btn { padding:5px 12px; border-radius:7px; font-size:11px; cursor:pointer; border:1px solid rgba(249,83,198,0.3); background:rgba(249,83,198,0.06); color:#f953c6; font-family:inherit; transition:all 0.15s; }
+.usar-gancho-btn:hover { background:rgba(249,83,198,0.12); }
+.ganchos-banner { background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(249,83,198,0.04)); border:1px solid rgba(167,139,250,0.15); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:13px; color:#888; line-height:1.6; }
+.ganchos-banner strong { color:#a78bfa; }
+.curiosidade-card { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; border-left:3px solid #f953c6; margin-bottom:12px; }
+.curiosidade-num { font-size:10px; font-weight:700; color:#f953c6; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.curiosidade-titulo { font-size:15px; font-weight:700; color:#f0f0f4; margin-bottom:8px; line-height:1.4; }
+.curiosidade-texto { font-size:13px; line-height:1.7; color:#aaa; margin-bottom:10px; }
+.curiosidade-gancho { background:#1a1a1a; border-radius:8px; padding:10px 13px; font-size:12px; color:#888; font-style:italic; border-left:2px solid rgba(249,83,198,0.3); }
+.curiosidade-gancho strong { color:#f953c6; font-style:normal; }
+.sabia-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(249,83,198,0.08); border:1px solid rgba(249,83,198,0.2); padding:3px 10px; border-radius:20px; font-size:11px; color:#f953c6; font-weight:600; margin-bottom:10px; }
+.tipo-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; margin-bottom:8px; margin-right:6px; }
+.tipo-ingrediente { background:rgba(20,184,166,0.1); color:#14b8a6; }
+.tipo-historia { background:rgba(200,242,48,0.1); color:#c8f230; }
+.tipo-mito { background:rgba(255,107,53,0.1); color:#ff6b35; }
+.tipo-comportamento { background:rgba(59,130,246,0.1); color:#3b82f6; }
+
 ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
 @media(max-width:768px){ .main{grid-template-columns:1fr} aside{border-right:none;border-bottom:1px solid #1e1e1e} .hero,.results{padding:18px} }
 </style>
@@ -143,7 +181,17 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
 
 <div class="hero">
   <h1>Da tendência ao post viral em 1 clique</h1>
-  <p>Cole uma tendência do FoodPulse ou escreva um tema — o PostMeninas cria o post completo com gancho, slides, legenda e hashtags para o Hamburguer das Meninas.</p>
+  <p>Cole uma tendência do FoodPulse ou escreva um tema. Escolha o modo:</p>
+  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.6;flex:1;min-width:160px;">
+      <div style="font-weight:700;color:#c8f230;margin-bottom:4px;">🤖 Automático</div>
+      <div style="color:#555;">IA decide o melhor gancho + padrão + gera o post. 1 clique só.</div>
+    </div>
+    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.6;flex:1;min-width:160px;">
+      <div style="font-weight:700;color:#a78bfa;margin-bottom:4px;">🎨 Manual</div>
+      <div style="color:#555;">Você gera os ganchos, escolhe o favorito e controla cada detalhe.</div>
+    </div>
+  </div>
 </div>
 
 <div class="main">
@@ -159,6 +207,7 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
       <button class="chip" data-fmt="reels" onclick="setFmt(this)"><span class="ico">🎬</span>Roteiro de Reels</button>
       <button class="chip" data-fmt="stories" onclick="setFmt(this)"><span class="ico">⭕</span>Stories</button>
       <button class="chip" data-fmt="meme" onclick="setFmt(this)"><span class="ico">😂</span>Meme</button>
+      <button class="chip" data-fmt="curiosidades" onclick="setFmt(this)"><span class="ico">🤯</span>Curiosidades</button>
     </div>
 
     <div>
@@ -178,11 +227,14 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
     </div>
 
     <button class="genbtn" id="genBtn" onclick="generatePost()">✨ Gerar Post</button>
+    <button class="genbtn" id="ganBtn" onclick="generateGanchos()" style="background:#1a1a2a;color:#a78bfa;border:1px solid rgba(167,139,250,0.3);margin-top:6px;">🎣 Gerar Arsenal de Ganchos</button>
+    <button class="genbtn" id="autoBtn" onclick="generateAuto()" style="background:#0a1a0a;color:#c8f230;border:1px solid rgba(200,242,48,0.3);margin-top:6px;">🤖 Modo Automático</button>
   </aside>
 
   <div class="content">
     <div class="tabs">
       <button class="tab on" id="tab-post" onclick="switchTab('post')">Post Completo</button>
+      <button class="tab" id="tab-ganchos" onclick="switchTab('ganchos')">🎣 Ganchos</button>
       <button class="tab" id="tab-legenda" onclick="switchTab('legenda')">Só a Legenda</button>
       <button class="tab" id="tab-raw" onclick="switchTab('raw')">Dados Brutos</button>
     </div>
@@ -199,7 +251,355 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
 <script>
 let fmt = 'carrossel';
 let hookOn = false;
-let lastData = null;
+let lastGanchos = null;
+
+async function generateAuto() {
+  const tema = document.getElementById('temaInput').value.trim();
+  if (!tema) { alert('Cole um tema ou tendência do FoodPulse!'); return; }
+
+  const btn = document.getElementById('autoBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⟳ Analisando...';
+
+  activeTab = 'post';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-post').classList.add('on');
+  document.getElementById('exportbar').style.display = 'none';
+  lastData = null;
+
+  const el = document.getElementById('results');
+  const msgs = ['Analisando o tema...', 'Escolhendo o melhor gancho...', 'Selecionando o padrão ideal...', 'Escrevendo os slides...', 'Finalizando o post...'];
+  let mi = 0;
+  el.innerHTML = `<div class="loading"><div class="ring" style="border-top-color:#c8f230"></div><p id="lmsg">${msgs[0]}</p></div>`;
+  const iv = setInterval(() => { mi=(mi+1)%msgs.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=msgs[mi]; btn.innerHTML=`⟳ ${msgs[mi]}`; }, 2000);
+
+  const abordagem = getAbordagem();
+  const fmt = document.querySelector('.chip[data-fmt].on')?.dataset?.fmt || 'carrossel';
+
+  const prompt = `Você é a Máquina de Carrosséis da BrandsDecoded — sistema editorial calibrado por 1.168 posts analisados. Seu padrão é "um repórter da Folha de S.Paulo escreveria assim?".
+
+MARCA: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC.
+TEMA: ${tema}
+FORMATO: ${fmt}
+ABORDAGEM: ${abordagem}
+
+MODO AUTOMÁTICO — execute tudo em sequência sem mostrar o processo:
+
+PASSO 1 — TRIAGEM: Analise o tema (transformação, fricção, ângulo narrativo, evidências).
+
+PASSO 2 — ESCOLHA DO GANCHO: Com base nos padrões da BrandsDecoded, escolha automaticamente o melhor padrão de hook para esse tema:
+• "A Morte de X" (lift +119%, média 57k likes) — quando algo está acabando
+• "Por que [Geração] está..." (lift +119%, média 28k likes) — comportamento inesperado
+• "Investigando [fenômeno]" (lift +99%, média 18k likes) — tom jornalístico
+• "Contraste/Antítese" (média 22k likes) — dois pólos em tensão
+• "Como [elemento pop]..." (média 20k likes) — referência cultural
+• "Provocação existencial" (média 14k likes) — reflexão profunda
+
+PASSO 3 — GERE O MELHOR GANCHO para esse tema e padrão escolhido. O gancho deve:
+• Parar o scroll nas primeiras 3 palavras
+• Criar lacuna de informação irresistível
+• Ser específico para o nicho alimentar/comportamental
+• PROIBIDO: "Você sabia", "Descubra", "Aprenda", "incrível", "surpreendente"
+
+PASSO 4 — ESPINHA DORSAL: Hook → Mecanismo → Prova → Aplicação → Direção
+
+PASSO 5 — COPY DOS SLIDES com anatomia BrandsDecoded:
+• Slide 1: Capa (headline viral com o gancho escolhido)
+• Slide 2: Hook/Problema — dark — tensão ou dado surpreendente
+• Slide 3: Contexto/Mecanismo — light — o motor por trás do fenômeno
+• Slide 4: Mecanismo pt.2 — dark — aprofunda
+• Slide 5: Prova/Dados — light — dados concretos com fonte
+• Slide 6: Expansão/Virada — dark — vira a perspectiva
+• Slide 7: Aplicação — light — mundo real
+• Slide 8: Direção/CTA — gradient
+• Slide 9: Fechamento — light — virada temática genuína, NUNCA resumo
+
+REGRAS ABSOLUTAS:
+• Tom aconchegante e autêntico — não coach, não corporativo
+• Artigos sempre presentes (um/uma/o/a)
+• Conectivos naturais (porque, só que, por isso, mas, aí, então)
+• PROIBIDO: "Não é X, é Y" / "E isso muda tudo" / "No fim das contas" / "Cada vez mais" / "Em um mundo onde" / "Você precisa" / "Sem X. Sem Y." / "Menos X, mais Y"
+• Tags dos slides: concretas e jornalísticas, nunca motivacionais vazios
+• CTA diretivo sem agradecimento
+• O post NÃO vende hamburguer — fala de cultura e comportamento
+
+Responda SOMENTE com JSON válido:
+{
+  "formato": "${fmt}",
+  "padrao_hook_escolhido": "Nome do padrão escolhido e por quê",
+  "tema_final": "Como o tema foi adaptado",
+  "capas": [
+    "Opção 1 usando o padrão escolhido",
+    "Opção 2 variação do mesmo padrão",
+    "Opção 3 padrão alternativo"
+  ],
+  "gancho": "O melhor gancho gerado automaticamente",
+  "slides": [
+    {
+      "numero": 1,
+      "titulo_slide": "TAG DO SLIDE",
+      "texto_slide": "Texto completo como parágrafo de reportagem",
+      "instrucao_visual": "Como diagramar"
+    }
+  ],
+  "legenda": "Legenda completa com emojis e CTA diretivo",
+  "hashtags_nicho": ["#hashtag1"],
+  "hashtags_local": ["#Camboriu", "#LitoralSC"],
+  "hashtags_tendencia": ["#hashtag1"],
+  "melhor_dia": "Quinta ou Sexta",
+  "melhor_horario": "18h-20h",
+  "dica_horario": "Por quê esse horário",
+  "dica_engajamento": "Dica específica para engajamento"
+}
+JSON puro, sem texto antes ou depois.`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
+    const data = await res.json();
+    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    let js = txt.replace(/```json|```/g,'').trim();
+    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
+    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
+    const parsed = JSON.parse(js);
+    parsed._ts = new Date().toISOString();
+    parsed._modo = 'automatico';
+    lastData = parsed;
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '🤖 Modo Automático';
+    document.getElementById('exportbar').style.display = 'flex';
+    renderResults(parsed);
+  } catch(err) {
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '🤖 Modo Automático';
+    el.innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
+  }
+}
+
+async function generateGanchos() {
+  const tema = document.getElementById('temaInput').value.trim();
+  if (!tema) { alert('Digite um tema ou cole uma tendência do FoodPulse!'); return; }
+
+  const btn = document.getElementById('ganBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⟳ Gerando ganchos...';
+
+  activeTab = 'ganchos';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-ganchos').classList.add('on');
+
+  const el = document.getElementById('results');
+  el.innerHTML = `<div class="loading"><div class="ring" style="border-top-color:#a78bfa"></div><p id="lmsg">Buscando os melhores ganchos...</p></div>`;
+
+  const msgs = ['Analisando o tema...','Criando ganchos de curiosidade...','Criando ganchos de controvérsia...','Criando ganchos de narrativa...'];
+  let mi = 0;
+  const iv = setInterval(() => { mi=(mi+1)%msgs.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=msgs[mi]; }, 1800);
+
+  const prompt = `Você é um publicitário especialista em mídias sociais e copywriting viral para Instagram, com profundo conhecimento em psicologia do consumo e alimentação.
+
+NICHO: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC. Público: Gen Z e Millennials brasileiros.
+TEMA: ${tema}
+
+Crie um arsenal de ganchos irresistíveis para esse nicho e tema. Cada gancho deve:
+1. Interromper a rolagem nas primeiras 3 palavras
+2. Criar uma lacuna de informação que o leitor PRECISA fechar
+3. Ser específico o suficiente para não funcionar em qualquer outro nicho
+4. Passar no teste: qualquer pessoa pararia o scroll para ler isso?
+
+REGRAS OBRIGATÓRIAS:
+• Proibido começar com "Você sabia", "Descubra", "Aprenda", "Dicas de"
+• Proibido usar "incrível", "surpreendente", "inacreditável" como abertura
+• As primeiras 3 palavras DEVEM criar tensão, curiosidade ou contradição imediata
+• Tom: aconchegante e autêntico — não coach, não corporativo
+• Conectar ao universo alimentar e comportamental do público jovem brasileiro
+
+Responda SOMENTE com JSON válido:
+{
+  "tema_analisado": "Como o tema foi interpretado para gerar os ganchos",
+  "categorias": [
+    {
+      "nome": "Curiosidade",
+      "emoji": "🤯",
+      "descricao": "Criam uma lacuna de informação irresistível — o leitor sente que está perdendo algo",
+      "ganchos": [
+        {
+          "texto": "O gancho completo pronto para usar",
+          "primeiras_3_palavras": "As 3 primeiras palavras",
+          "gatilho": "curiosidade",
+          "por_que_funciona": "Explicação em 1 frase de por que esse gancho para o scroll"
+        }
+      ]
+    },
+    {
+      "nome": "Controvérsia",
+      "emoji": "🔥",
+      "descricao": "Provocam discordância ou indignação controlada — o leitor quer provar que está certo",
+      "ganchos": [
+        {
+          "texto": "O gancho completo",
+          "primeiras_3_palavras": "As 3 primeiras palavras",
+          "gatilho": "indignacao",
+          "por_que_funciona": "Explicação em 1 frase"
+        }
+      ]
+    },
+    {
+      "nome": "Narrativa",
+      "emoji": "📖",
+      "descricao": "Abrem uma história que o leitor precisa ver o final — ativam o instinto de completar",
+      "ganchos": [
+        {
+          "texto": "O gancho completo",
+          "primeiras_3_palavras": "As 3 primeiras palavras",
+          "gatilho": "nostalgia",
+          "por_que_funciona": "Explicação em 1 frase"
+        }
+      ]
+    }
+  ],
+  "melhor_gancho": "O gancho mais forte de todos — copiar e usar agora",
+  "por_que_e_o_melhor": "Por que esse é o melhor para esse tema e nicho específico"
+}
+
+Gere exatamente 5 ganchos por categoria (15 no total). Gatilhos possíveis: curiosidade, medo, identidade, indignacao, nostalgia, aspiracao, urgencia, surpresa. JSON puro.`;
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
+    const data = await res.json();
+    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    let js = txt.replace(/```json|```/g,'').trim();
+    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
+    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
+    const parsed = JSON.parse(js);
+    parsed._ts = new Date().toISOString();
+    lastGanchos = parsed;
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '🎣 Gerar Arsenal de Ganchos';
+    renderGanchos(parsed);
+  } catch(err) {
+    clearInterval(iv);
+    btn.disabled = false; btn.innerHTML = '🎣 Gerar Arsenal de Ganchos';
+    document.getElementById('results').innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
+  }
+}
+
+const GATILHO_CLASS = {
+  curiosidade:'gatilho-curiosidade', medo:'gatilho-medo', identidade:'gatilho-identidade',
+  indignacao:'gatilho-indignacao', nostalgia:'gatilho-nostalgia', aspiracao:'gatilho-aspiracao',
+  urgencia:'gatilho-urgencia', surpresa:'gatilho-surpresa'
+};
+const GATILHO_LABEL = {
+  curiosidade:'🤯 Curiosidade', medo:'😨 Medo/Alerta', identidade:'🪞 Identidade',
+  indignacao:'🔥 Indignação', nostalgia:'💜 Nostalgia', aspiracao:'✨ Aspiração',
+  urgencia:'⚡ Urgência', surpresa:'😱 Surpresa'
+};
+
+function renderGanchos(d) {
+  const el = document.getElementById('results');
+  const now = new Date(d._ts).toLocaleString('pt-BR');
+
+  let h = `<div class="ganchos-grid">
+    <div class="ganchos-banner">
+      <strong>🎣 Arsenal de Ganchos — ${now}</strong><br>
+      ${d.tema_analisado || ''}<br><br>
+      <strong style="color:#f953c6;">🏆 Melhor gancho:</strong> "${d.melhor_gancho || ''}"<br>
+      <span style="font-size:11px;color:#444;">${d.por_que_e_o_melhor || ''}</span>
+    </div>
+    <div class="export-row">
+      <button class="ebtn primary" onclick="copyGanchos()">📋 Copiar todos os ganchos</button>
+      <button class="ebtn" onclick="exportGanchosTxt()">⬇ Exportar .txt</button>
+    </div>`;
+
+  (d.categorias || []).forEach(cat => {
+    h += `<div class="ganchos-categoria">
+      <div class="ganchos-cat-header">
+        <span class="ganchos-cat-ico">${cat.emoji}</span>
+        <div>
+          <div class="ganchos-cat-title">Ganchos de ${cat.nome}</div>
+          <div class="ganchos-cat-desc">${cat.descricao}</div>
+        </div>
+      </div>`;
+
+    (cat.ganchos || []).forEach((g, i) => {
+      const gc = GATILHO_CLASS[g.gatilho] || 'gatilho-curiosidade';
+      const gl = GATILHO_LABEL[g.gatilho] || g.gatilho;
+      h += `<div class="gancho-item">
+        <div class="gancho-texto">"${g.texto}"</div>
+        <div class="gancho-footer">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+            <span class="gatilho-badge ${gc}">${gl}</span>
+            <span class="gancho-primeiras">Primeiras 3 palavras: <strong style="color:#f0f0f4">${g.primeiras_3_palavras || ''}</strong></span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span style="font-size:11px;color:#444;max-width:200px;text-align:right;">${g.por_que_funciona || ''}</span>
+            <button class="usar-gancho-btn" onclick="usarGancho('${(g.texto||'').replace(/'/g,"\\'")}')">Usar →</button>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    h += `</div>`;
+  });
+
+  h += `</div>`;
+  el.innerHTML = h;
+}
+
+function usarGancho(texto) {
+  document.getElementById('temaInput').value = texto;
+  switchTab('post');
+  document.getElementById('results').innerHTML = `<div class="empty">
+    <div class="empty-ico">🎣</div>
+    <h2>Gancho selecionado!</h2>
+    <p>O gancho foi colocado no campo de tema. Clique em <strong>✨ Gerar Post</strong> para criar o carrossel completo com ele.</p>
+  </div>`;
+}
+
+function copyGanchos() {
+  if (!lastGanchos) return;
+  let txt = `ARSENAL DE GANCHOS — ${new Date(lastGanchos._ts).toLocaleString('pt-BR')}\n`;
+  txt += `Tema: ${lastGanchos.tema_analisado}\n\n`;
+  txt += `🏆 MELHOR GANCHO: "${lastGanchos.melhor_gancho}"\n${lastGanchos.por_que_e_o_melhor}\n\n`;
+  (lastGanchos.categorias||[]).forEach(cat => {
+    txt += `${'='.repeat(40)}\n${cat.emoji} GANCHOS DE ${cat.nome.toUpperCase()}\n${cat.descricao}\n${'='.repeat(40)}\n`;
+    (cat.ganchos||[]).forEach((g,i) => { txt += `\n${i+1}. "${g.texto}"\nGatilho: ${GATILHO_LABEL[g.gatilho]||g.gatilho}\nPor quê funciona: ${g.por_que_funciona}\n`; });
+    txt += '\n';
+  });
+  navigator.clipboard.writeText(txt).then(() => alert('Todos os ganchos copiados!'));
+}
+
+function exportGanchosTxt() {
+  if (!lastGanchos) return;
+  let txt = `ARSENAL DE GANCHOS — PostMeninas\n${new Date(lastGanchos._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
+  txt += `TEMA: ${lastGanchos.tema_analisado}\n\n🏆 MELHOR GANCHO\n"${lastGanchos.melhor_gancho}"\n${lastGanchos.por_que_e_o_melhor}\n\n`;
+  (lastGanchos.categorias||[]).forEach(cat => {
+    txt += `${'='.repeat(50)}\n${cat.emoji} GANCHOS DE ${cat.nome.toUpperCase()}\n${cat.descricao}\n\n`;
+    (cat.ganchos||[]).forEach((g,i) => { txt += `${i+1}. "${g.texto}"\n   Gatilho: ${GATILHO_LABEL[g.gatilho]||g.gatilho} | Primeiras 3 palavras: ${g.primeiras_3_palavras}\n   Por quê: ${g.por_que_funciona}\n\n`; });
+  });
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download = `ganchos_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
 let activeTab = 'post';
 
 const MSGS = ['Analisando a tendência...','Criando o gancho emocional...','Escrevendo os slides...','Montando a legenda...','Escolhendo as hashtags...'];
@@ -246,7 +646,8 @@ function switchTab(t) {
   activeTab = t;
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
   document.getElementById('tab-' + t).classList.add('on');
-  if (lastData) renderResults(lastData);
+  if (t === 'ganchos' && lastGanchos) { renderGanchos(lastGanchos); return; }
+  if (t !== 'ganchos' && lastData) renderResults(lastData);
 }
 
 async function generatePost() {
@@ -267,10 +668,11 @@ async function generatePost() {
   const abordagem = getAbordagem();
 
   const fmtInstrucoes = {
-    carrossel: `Crie um carrossel de 6 slides. Slide 1 = gancho que para o scroll (capa). Slides 2-5 = desenvolvimento. Slide 6 = CTA. Cada slide deve fazer sentido sozinho e puxar para o próximo. Para cada slide: titulo_slide (máx 6 palavras, caixa alta), texto_slide (1-2 linhas), instrucao_visual (como diagramar visualmente).`,
+    carrossel: `Crie um carrossel de 9 slides com a anatomia BrandsDecoded. Slide 1 = capa com headline viral. Slides 2-8 = desenvolvimento narrativo. Slide 9 = CTA diretivo. Para cada slide: titulo_slide (tag do slide), texto_slide (copy completo do slide), instrucao_visual (como diagramar).`,
     reels: `Crie um roteiro de Reels de 30-60 segundos. 6 "slides" = cenas do vídeo. Slide 1 = abertura impactante (0-3s). Slides 2-5 = desenvolvimento. Slide 6 = CTA final. Para cada cena: titulo_slide (o que acontece na cena), texto_slide (fala ou texto na tela), instrucao_visual (o que mostrar visualmente).`,
     stories: `Crie uma sequência de 6 stories. Slide 1 = gancho. Slides 2-4 = conteúdo. Slide 5 = engajamento (enquete ou pergunta). Slide 6 = CTA. Para cada story: titulo_slide (tipo do story), texto_slide (texto principal), instrucao_visual (elemento visual ou interativo).`,
-    meme: `Crie 3 opções de meme sobre o tema. Cada "slide" é uma opção de meme. Para cada: titulo_slide (formato do meme), texto_slide (texto de cima + texto de baixo), instrucao_visual (imagem ou template sugerido).`
+    meme: `Crie 3 opções de meme sobre o tema. Cada "slide" é uma opção de meme. Para cada: titulo_slide (formato do meme), texto_slide (texto de cima + texto de baixo), instrucao_visual (imagem ou template sugerido).`,
+    curiosidades: `Busque NA INTERNET 5 curiosidades REAIS, surpreendentes e verificáveis sobre o tema — cobrindo diferentes ângulos: ingredientes, história, mitos e verdades, e comportamento alimentar. Cada curiosidade deve ser um "Você sabia que..." que genuinamente surpreende. Para cada curiosidade gerar: titulo (headline impactante que para o scroll), texto (a curiosidade explicada em 2-3 frases com dado concreto e fonte quando possível), gancho (como conectar essa curiosidade ao universo do Hamburguer das Meninas de forma natural e aconchegante), tipo (ingrediente | historia | mito | comportamento).`
   };
 
   const prompt = `Você é a Máquina de Carrosséis — um sistema editorial calibrado por dados reais de 1.168 posts analisados. Seu padrão de comparação não é "está correto?" mas sim "um repórter da Folha de S.Paulo escreveria assim?". Você tem opinião editorial e rejeita qualquer AI slop antes de entregar.
@@ -385,7 +787,64 @@ CTA proibido: "Espero que tenha gostado!" / "Obrigado por acompanhar" / "Não es
 CTA correto: diretivo — "Comenta X, recebe Y" — sem agradecimento
 
 ══════════════════════════════════════
-Responda SOMENTE com JSON válido:
+Responda SOMENTE com JSON válido.
+
+${fmt === 'curiosidades' ? `Para o formato curiosidades, use ESTE JSON:
+{
+  "formato": "curiosidades",
+  "tema_final": "Como o tema foi abordado",
+  "capas": [
+    "Opção 1 de título de capa — estilo 'Você sabia que...' ou 'A verdade sobre...'",
+    "Opção 2 — estilo pergunta provocadora",
+    "Opção 3 — estilo revelação surpreendente"
+  ],
+  "gancho": "Frase de abertura que para o scroll",
+  "curiosidades": [
+    {
+      "numero": 1,
+      "tipo": "ingrediente",
+      "titulo": "Headline impactante da curiosidade",
+      "texto": "A curiosidade explicada em 2-3 frases com dado concreto e fonte",
+      "gancho_marca": "Como conectar ao Hamburguer das Meninas de forma natural"
+    }
+  ],
+  "legenda": "Legenda completa para o post com emojis e CTA",
+  "hashtags_nicho": ["#hashtag1"],
+  "hashtags_local": ["#Camboriu"],
+  "hashtags_tendencia": ["#hashtag1"],
+  "melhor_dia": "Quinta ou Sexta",
+  "melhor_horario": "18h-20h",
+  "dica_horario": "Por quê esse horário funciona",
+  "dica_engajamento": "Dica específica para engajar com curiosidades"
+}` : `Para outros formatos, use ESTE JSON:
+{
+  "formato": "${fmt}",
+  "tema_final": "Como o tema foi adaptado para a marca",
+  "capas": [
+    "Opção 1 de título de capa (padrão Morte/Fim)",
+    "Opção 2 de título de capa (padrão Geracional)",
+    "Opção 3 de título de capa (padrão Investigando)"
+  ],
+  "gancho": "O hook principal que para o scroll — frase de impacto",
+  "slides": [
+    {
+      "numero": 1,
+      "titulo_slide": "TAG DO SLIDE EM CAIXA ALTA",
+      "texto_slide": "Texto completo do slide como parágrafo de reportagem",
+      "instrucao_visual": "Como diagramar ou o que mostrar visualmente"
+    }
+  ],
+  "legenda": "Legenda completa para o post com emojis, quebras de linha naturais e CTA no final. Tom aconchegante.",
+  "hashtags_nicho": ["#hashtag1", "#hashtag2"],
+  "hashtags_local": ["#Camboriu", "#LitoralSC"],
+  "hashtags_tendencia": ["#hashtag1", "#hashtag2"],
+  "melhor_dia": "Quinta ou Sexta",
+  "melhor_horario": "18h-20h",
+  "dica_horario": "Por quê esse horário funciona",
+  "dica_engajamento": "Uma dica específica para aumentar o engajamento desse post"
+}`}
+
+JSON puro, sem texto antes ou depois.`;
 
 {
   "formato": "${fmt}",
@@ -491,7 +950,11 @@ function renderResults(d) {
     </div>`;
 
   if (d.tema_final) {
-    h += `<div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 16px;font-size:13px;color:#888;line-height:1.6;">
+    const modeInfo = d._modo === 'automatico' && d.padrao_hook_escolhido
+      ? `<div style="background:#0a1a0a;border:1px solid rgba(200,242,48,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:#888;line-height:1.6;margin-bottom:8px;">
+          <strong style="color:#c8f230;">🤖 Modo Automático</strong> — Padrão escolhido pela IA: <strong style="color:#f0f0f4;">${d.padrao_hook_escolhido}</strong>
+         </div>` : '';
+    h += `${modeInfo}<div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 16px;font-size:13px;color:#888;line-height:1.6;">
       <strong style="color:#555;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;">Tema adaptado</strong><br>${d.tema_final}
     </div>`;
   }
