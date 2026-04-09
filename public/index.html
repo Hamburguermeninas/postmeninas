@@ -5,168 +5,152 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PostMeninas — Gerador de Posts</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0d0d0d; color:#f0f0f4; min-height:100vh; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d0d0d;color:#f0f0f4;min-height:100vh;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1e1e1e;background:#0d0d0d;position:sticky;top:0;z-index:10;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#f953c6,#b91d73);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.logo-name{font-size:16px;font-weight:700;}
+.logo-name span{background:linear-gradient(135deg,#f953c6,#b91d73);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-badge{font-size:11px;color:#f953c6;background:rgba(249,83,198,0.1);border:1px solid rgba(249,83,198,0.2);padding:4px 12px;border-radius:20px;}
 
-nav { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid #1e1e1e; background:#0d0d0d; position:sticky; top:0; z-index:10; }
-.logo { display:flex; align-items:center; gap:10px; }
-.logo-mark { width:34px; height:34px; background:linear-gradient(135deg,#f953c6,#b91d73); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
-.logo-name { font-size:17px; font-weight:700; }
-.logo-name span { background:linear-gradient(135deg,#f953c6,#b91d73); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.nav-badge { font-size:11px; color:#f953c6; background:rgba(249,83,198,0.1); border:1px solid rgba(249,83,198,0.25); padding:4px 12px; border-radius:20px; }
+.hero{padding:20px 24px 16px;border-bottom:1px solid #1e1e1e;}
+.hero h1{font-size:18px;font-weight:700;margin-bottom:4px;}
+.hero p{font-size:12px;color:#555;margin-bottom:12px;}
+.modes-row{display:flex;gap:8px;flex-wrap:wrap;}
+.mode-card{background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.5;flex:1;min-width:140px;}
+.mode-card-title{font-weight:700;margin-bottom:3px;}
 
-.hero { padding:28px 32px 20px; border-bottom:1px solid #1e1e1e; }
-.hero h1 { font-size:20px; font-weight:700; margin-bottom:5px; }
-.hero p { font-size:13px; color:#555; line-height:1.6; max-width:600px; }
+.main{display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 140px);}
+aside{border-right:1px solid #1e1e1e;padding:20px 16px;display:flex;flex-direction:column;gap:18px;}
+.slabel{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#444;margin-bottom:8px;}
+textarea.inp{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #2a2a2a;background:#141414;color:#f0f0f4;font-family:inherit;font-size:13px;resize:vertical;transition:border 0.15s;}
+textarea.inp:focus{outline:none;border-color:rgba(249,83,198,0.4);}
+textarea.inp::placeholder{color:#444;}
 
-.main { display:grid; grid-template-columns:300px 1fr; min-height:calc(100vh - 130px); }
+.chip{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:9px;cursor:pointer;border:1px solid #2a2a2a;font-size:12px;color:#666;background:#141414;font-family:inherit;transition:all 0.15s;text-align:left;width:100%;margin-bottom:4px;}
+.chip:hover{color:#f0f0f4;border-color:#3a3a3a;}
+.chip.on{background:rgba(249,83,198,0.07);border-color:rgba(249,83,198,0.28);color:#f953c6;}
+.chip .ico{font-size:14px;width:18px;text-align:center;}
 
-/* SIDEBAR */
-aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-direction:column; gap:20px; }
-.slabel { font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:#444; margin-bottom:8px; }
+select.sel{width:100%;padding:9px 12px;border-radius:10px;border:1px solid #2a2a2a;background:#141414;color:#f0f0f4;font-family:inherit;font-size:13px;cursor:pointer;}
+select.sel:focus{outline:none;border-color:rgba(249,83,198,0.4);}
 
-.inp { width:100%; padding:10px 13px; border-radius:10px; border:1px solid #2a2a2a; background:#141414; color:#f0f0f4; font-family:inherit; font-size:13px; transition:border 0.15s; resize:vertical; }
-.inp:focus { outline:none; border-color:rgba(249,83,198,0.4); }
-.inp::placeholder { color:#444; }
+.divider{border:none;border-top:1px solid #1e1e1e;margin:4px 0;}
 
-.chip { display:flex; align-items:center; gap:8px; padding:8px 11px; border-radius:9px; cursor:pointer; border:1px solid #2a2a2a; font-size:12px; color:#666; background:#141414; font-family:inherit; transition:all 0.15s; text-align:left; width:100%; margin-bottom:4px; }
-.chip:hover { color:#f0f0f4; border-color:#3a3a3a; }
-.chip.on { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.3); color:#f953c6; }
-.chip .ico { font-size:15px; width:20px; text-align:center; }
+.btn-main{display:flex;align-items:center;justify-content:center;gap:7px;border:none;padding:12px;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer;width:100%;font-family:inherit;transition:all 0.15s;margin-bottom:6px;}
+.btn-auto{background:#0d1a0d;color:#c8f230;border:1px solid rgba(200,242,48,0.28);}
+.btn-auto:hover{background:#111f11;}
+.btn-manual{background:rgba(249,83,198,0.08);color:#f953c6;border:1px solid rgba(249,83,198,0.28);}
+.btn-manual:hover{background:rgba(249,83,198,0.14);}
+.btn-ganchos{background:#0d0d1a;color:#a78bfa;border:1px solid rgba(167,139,250,0.28);}
+.btn-ganchos:hover{background:#111122;}
+.btn-main:disabled{opacity:0.45;cursor:not-allowed;}
 
-.hook-toggle { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:10px; border:1px solid #2a2a2a; background:#141414; cursor:pointer; }
-.hook-toggle-label { font-size:13px; color:#888; display:flex; align-items:center; gap:8px; }
-.toggle-switch { width:36px; height:20px; background:#2a2a2a; border-radius:10px; position:relative; transition:background 0.2s; }
-.toggle-switch.on { background:#f953c6; }
-.toggle-knob { width:16px; height:16px; background:#fff; border-radius:50%; position:absolute; top:2px; left:2px; transition:left 0.2s; }
-.toggle-switch.on .toggle-knob { left:18px; }
+.sfooter{margin-top:auto;font-size:11px;color:#333;line-height:1.6;}
 
-.hook-options { background:#141414; border:1px solid #2a2a2a; border-radius:10px; padding:10px; margin-top:6px; display:none; }
-.hook-options.show { display:block; }
-.hook-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 10px; border-radius:7px; cursor:pointer; border:1px solid #2a2a2a; font-size:11px; color:#666; background:transparent; font-family:inherit; margin:3px; transition:all 0.15s; }
-.hook-chip.on { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.3); color:#f953c6; }
+.content{display:flex;flex-direction:column;}
+.tabs{display:flex;border-bottom:1px solid #1e1e1e;padding:0 22px;overflow-x:auto;}
+.tab{padding:12px 14px;font-size:12px;color:#555;cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;transition:all 0.15s;white-space:nowrap;}
+.tab.on{color:#f953c6;border-bottom-color:#f953c6;}
+.tab:hover{color:#f0f0f4;}
+.exportbar{display:flex;gap:8px;padding:10px 22px;border-bottom:1px solid #1e1e1e;}
+.ebtn{padding:6px 12px;border-radius:8px;font-size:11px;cursor:pointer;border:1px solid #2a2a2a;background:#141414;color:#666;font-family:inherit;transition:all 0.15s;}
+.ebtn:hover{color:#f0f0f4;}
+.ebtn.pk{background:rgba(249,83,198,0.07);border-color:rgba(249,83,198,0.28);color:#f953c6;}
 
-.genbtn { display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg,#f953c6,#b91d73); color:#fff; border:none; padding:13px; border-radius:11px; font-weight:700; font-size:14px; cursor:pointer; width:100%; font-family:inherit; transition:all 0.15s; margin-top:auto; }
-.genbtn:hover { opacity:0.9; }
-.genbtn:disabled { opacity:0.5; cursor:not-allowed; }
+.results{flex:1;overflow-y:auto;padding:22px 26px;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:12px;text-align:center;}
+.empty-ico{font-size:42px;}
+.empty h2{font-size:17px;font-weight:700;}
+.empty p{color:#555;font-size:13px;max-width:300px;line-height:1.6;}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:16px;}
+.ring{width:42px;height:42px;border:3px solid #1e1e1e;border-top-color:#f953c6;border-radius:50%;animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:#555;font-size:13px;}
 
-/* CONTENT */
-.content { display:flex; flex-direction:column; overflow:hidden; }
-.tabs { display:flex; border-bottom:1px solid #1e1e1e; padding:0 24px; }
-.tab { padding:13px 16px; font-size:13px; color:#555; cursor:pointer; border-bottom:2px solid transparent; background:none; border-top:none; border-left:none; border-right:none; font-family:inherit; transition:all 0.15s; }
-.tab.on { color:#f953c6; border-bottom-color:#f953c6; }
+.grid{display:flex;flex-direction:column;gap:16px;animation:up 0.4s ease;}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.gheader{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.gheader h2{font-size:19px;font-weight:700;}
+.gmeta{font-size:11px;color:#444;}
 
-.results { flex:1; overflow-y:auto; padding:24px 28px; }
+.auto-badge{background:#0d1a0d;border:1px solid rgba(200,242,48,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:#888;line-height:1.6;margin-bottom:8px;}
+.tema-box{background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:13px;color:#888;line-height:1.6;}
 
-.empty { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:380px; gap:14px; text-align:center; }
-.empty-ico { font-size:44px; }
-.empty h2 { font-size:18px; font-weight:700; }
-.empty p { color:#555; font-size:13px; max-width:300px; line-height:1.65; }
+.banner{background:linear-gradient(135deg,rgba(249,83,198,0.04),rgba(185,29,115,0.03));border:1px solid rgba(249,83,198,0.12);border-radius:13px;padding:14px 18px;}
+.blbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#f953c6;margin-bottom:6px;}
+.banner p{font-size:13px;line-height:1.7;color:#aaa;}
 
-.loading { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:380px; gap:16px; }
-.ring { width:44px; height:44px; border:3px solid #1e1e1e; border-top-color:#f953c6; border-radius:50%; animation:spin 0.9s linear infinite; }
-@keyframes spin { to{transform:rotate(360deg)} }
-.loading p { color:#555; font-size:13px; }
+.hook-destaque{background:linear-gradient(135deg,rgba(249,83,198,0.07),rgba(185,29,115,0.04));border:1px solid rgba(249,83,198,0.2);border-radius:12px;padding:14px 18px;margin-bottom:4px;}
+.hook-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#f953c6;margin-bottom:6px;}
+.hook-txt{font-size:14px;font-weight:600;color:#f0f0f4;line-height:1.5;}
 
-.post-grid { display:flex; flex-direction:column; gap:20px; animation:up 0.4s ease; }
-@keyframes up { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.capas-wrap{display:flex;flex-direction:column;gap:7px;}
+.capa-item{background:#1a1a1a;border:1px solid #222;border-radius:9px;padding:11px 14px;display:flex;align-items:center;gap:10px;}
+.capa-num{width:22px;height:22px;background:rgba(249,83,198,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#f953c6;flex-shrink:0;}
+.capa-text{font-size:13px;font-weight:600;color:#f0f0f4;line-height:1.4;}
 
-/* FORMAT BADGE */
-.format-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:4px; }
-.format-badge { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; }
-.fb-carrossel { background:rgba(59,130,246,0.1); color:#3b82f6; }
-.fb-reels { background:rgba(249,83,198,0.1); color:#f953c6; }
-.fb-stories { background:rgba(255,107,53,0.1); color:#ff6b35; }
-.fb-meme { background:rgba(200,242,48,0.1); color:#c8f230; }
-.post-meta { font-size:11px; color:#444; }
+.section-card{background:#141414;border:1px solid #1e1e1e;border-radius:13px;padding:18px 20px;}
+.section-title{font-size:10px;font-weight:600;letter-spacing:0.9px;text-transform:uppercase;color:#444;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #1e1e1e;display:flex;align-items:center;justify-content:space-between;}
 
-/* CARDS */
-.section-card { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; }
-.section-title { font-size:11px; font-weight:600; letter-spacing:0.9px; text-transform:uppercase; color:#444; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; gap:6px; }
+.slide-item{background:#1a1a1a;border:1px solid #222;border-radius:9px;padding:12px 14px;margin-bottom:8px;}
+.slide-item:last-child{margin-bottom:0;}
+.slide-num{font-size:10px;font-weight:700;color:#444;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px;}
+.slide-titulo{font-size:12px;font-weight:700;color:#f953c6;margin-bottom:5px;}
+.slide-texto{font-size:13px;line-height:1.65;color:#aaa;margin-bottom:6px;}
+.slide-visual{font-size:11px;color:#444;font-style:italic;border-top:1px solid #1e1e1e;padding-top:6px;margin-top:6px;}
 
-/* GANCHO */
-.hook-box { background:linear-gradient(135deg,rgba(249,83,198,0.06),rgba(185,29,115,0.04)); border:1px solid rgba(249,83,198,0.2); border-radius:12px; padding:16px 18px; margin-bottom:8px; }
-.hook-box-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:#f953c6; margin-bottom:6px; }
-.hook-box-text { font-size:14px; line-height:1.6; color:#f0f0f4; font-weight:500; }
+.legenda-box{background:#1a1a1a;border-radius:10px;padding:14px;font-size:13px;line-height:1.8;color:#ccc;white-space:pre-wrap;}
 
-/* SLIDES */
-.slides-wrap { display:flex; flex-direction:column; gap:10px; }
-.slide { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:14px 16px; }
-.slide-num { font-size:10px; font-weight:700; color:#444; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.8px; }
-.slide-titulo { font-size:13px; font-weight:700; color:#f0f0f4; margin-bottom:5px; }
-.slide-texto { font-size:13px; line-height:1.6; color:#aaa; margin-bottom:6px; }
-.slide-visual { font-size:11px; color:#555; font-style:italic; border-top:1px solid #222; padding-top:6px; margin-top:6px; }
-.slide-cta { background:linear-gradient(135deg,rgba(249,83,198,0.08),rgba(185,29,115,0.06)); border:1px solid rgba(249,83,198,0.2); }
+.hashtags-wrap{display:flex;flex-wrap:wrap;gap:6px;}
+.hashtag{background:#1a1a1a;border:1px solid #222;padding:3px 9px;border-radius:6px;font-size:11px;color:#888;}
+.hashtag.local{color:#f953c6;border-color:rgba(249,83,198,0.2);background:rgba(249,83,198,0.04);}
 
-/* LEGENDA */
-.legenda-box { background:#1a1a1a; border-radius:10px; padding:16px; font-size:13.5px; line-height:1.8; color:#ccc; white-space:pre-wrap; }
-
-/* HASHTAGS */
-.hashtags-wrap { display:flex; flex-wrap:wrap; gap:6px; }
-.hashtag { background:#1a1a1a; border:1px solid #222; padding:4px 10px; border-radius:6px; font-size:12px; color:#888; }
-.hashtag.local { color:#f953c6; border-color:rgba(249,83,198,0.25); background:rgba(249,83,198,0.05); }
-
-/* TIMING */
-.timing-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.timing-item { background:#1a1a1a; border-radius:10px; padding:12px 14px; }
-.timing-label { font-size:10px; text-transform:uppercase; letter-spacing:0.8px; color:#444; margin-bottom:4px; }
-.timing-value { font-size:14px; font-weight:600; color:#f0f0f4; }
-.timing-obs { font-size:11px; color:#555; margin-top:3px; }
-
-/* CAPAS */
-.capas-wrap { display:flex; flex-direction:column; gap:8px; }
-.capa-item { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:12px 16px; display:flex; align-items:center; gap:12px; }
-.capa-num { width:24px; height:24px; background:rgba(249,83,198,0.1); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#f953c6; flex-shrink:0; }
-.capa-text { font-size:14px; font-weight:600; color:#f0f0f4; line-height:1.4; }
-
-/* EXPORT */
-.export-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-.ebtn { padding:7px 14px; border-radius:8px; font-size:12px; cursor:pointer; border:1px solid #2a2a2a; background:#141414; color:#666; font-family:inherit; transition:all 0.15s; }
-.ebtn:hover { color:#f0f0f4; border-color:#3a3a3a; }
-.ebtn.primary { background:rgba(249,83,198,0.08); border-color:rgba(249,83,198,0.25); color:#f953c6; }
-
-.errbox { background:rgba(255,71,87,0.07); border:1px solid rgba(255,71,87,0.2); border-radius:10px; padding:14px 18px; color:#ff6b6b; font-size:13px; line-height:1.6; }
+.timing-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.timing-item{background:#1a1a1a;border-radius:9px;padding:10px 13px;}
+.timing-label{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:#444;margin-bottom:3px;}
+.timing-value{font-size:13px;font-weight:600;color:#f0f0f4;}
+.dica-box{background:#1a1a1a;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:12px;color:#888;line-height:1.6;}
 
 /* GANCHOS */
-.ganchos-grid { display:flex; flex-direction:column; gap:24px; animation:up 0.4s ease; }
-.ganchos-categoria { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; }
-.ganchos-cat-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #1e1e1e; }
-.ganchos-cat-ico { font-size:20px; }
-.ganchos-cat-title { font-size:14px; font-weight:700; color:#f0f0f4; }
-.ganchos-cat-desc { font-size:11px; color:#555; margin-top:2px; }
-.gancho-item { background:#1a1a1a; border:1px solid #222; border-radius:10px; padding:14px 16px; margin-bottom:8px; }
-.gancho-item:last-child { margin-bottom:0; }
-.gancho-texto { font-size:14px; font-weight:600; color:#f0f0f4; line-height:1.5; margin-bottom:10px; }
-.gancho-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
-.gatilho-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
-.gatilho-curiosidade { background:rgba(200,242,48,0.08); color:#c8f230; }
-.gatilho-medo { background:rgba(255,71,87,0.08); color:#ff4757; }
-.gatilho-identidade { background:rgba(59,130,246,0.08); color:#3b82f6; }
-.gatilho-indignacao { background:rgba(255,107,53,0.08); color:#ff6b35; }
-.gatilho-nostalgia { background:rgba(167,139,250,0.08); color:#a78bfa; }
-.gatilho-aspiracao { background:rgba(20,184,166,0.08); color:#14b8a6; }
-.gatilho-urgencia { background:rgba(249,83,198,0.08); color:#f953c6; }
-.gatilho-surpresa { background:rgba(200,242,48,0.08); color:#c8f230; }
-.gancho-primeiras { font-size:10px; color:#444; font-style:italic; }
-.usar-gancho-btn { padding:5px 12px; border-radius:7px; font-size:11px; cursor:pointer; border:1px solid rgba(249,83,198,0.3); background:rgba(249,83,198,0.06); color:#f953c6; font-family:inherit; transition:all 0.15s; }
-.usar-gancho-btn:hover { background:rgba(249,83,198,0.12); }
-.ganchos-banner { background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(249,83,198,0.04)); border:1px solid rgba(167,139,250,0.15); border-radius:12px; padding:14px 18px; margin-bottom:20px; font-size:13px; color:#888; line-height:1.6; }
-.ganchos-banner strong { color:#a78bfa; }
-.curiosidade-card { background:#141414; border:1px solid #1e1e1e; border-radius:14px; padding:20px 22px; border-left:3px solid #f953c6; margin-bottom:12px; }
-.curiosidade-num { font-size:10px; font-weight:700; color:#f953c6; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
-.curiosidade-titulo { font-size:15px; font-weight:700; color:#f0f0f4; margin-bottom:8px; line-height:1.4; }
-.curiosidade-texto { font-size:13px; line-height:1.7; color:#aaa; margin-bottom:10px; }
-.curiosidade-gancho { background:#1a1a1a; border-radius:8px; padding:10px 13px; font-size:12px; color:#888; font-style:italic; border-left:2px solid rgba(249,83,198,0.3); }
-.curiosidade-gancho strong { color:#f953c6; font-style:normal; }
-.sabia-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(249,83,198,0.08); border:1px solid rgba(249,83,198,0.2); padding:3px 10px; border-radius:20px; font-size:11px; color:#f953c6; font-weight:600; margin-bottom:10px; }
-.tipo-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; margin-bottom:8px; margin-right:6px; }
-.tipo-ingrediente { background:rgba(20,184,166,0.1); color:#14b8a6; }
-.tipo-historia { background:rgba(200,242,48,0.1); color:#c8f230; }
-.tipo-mito { background:rgba(255,107,53,0.1); color:#ff6b35; }
-.tipo-comportamento { background:rgba(59,130,246,0.1); color:#3b82f6; }
+.ganchos-grid{display:flex;flex-direction:column;gap:20px;animation:up 0.4s ease;}
+.ganchos-banner{background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(249,83,198,0.04));border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:14px 18px;font-size:13px;color:#888;line-height:1.65;}
+.melhor-gancho{background:#0d1a0d;border:1px solid rgba(200,242,48,0.2);border-radius:10px;padding:12px 16px;margin-top:8px;}
+.melhor-lbl{font-size:10px;font-weight:700;color:#c8f230;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px;}
+.melhor-txt{font-size:14px;font-weight:600;color:#f0f0f4;line-height:1.5;}
+.melhor-why{font-size:11px;color:#555;margin-top:4px;}
 
-::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
-@media(max-width:768px){ .main{grid-template-columns:1fr} aside{border-right:none;border-bottom:1px solid #1e1e1e} .hero,.results{padding:18px} }
+.ganchos-cat{background:#141414;border:1px solid #1e1e1e;border-radius:13px;padding:18px 20px;}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #1e1e1e;}
+.cat-ico{font-size:18px;}
+.cat-title{font-size:13px;font-weight:700;color:#f0f0f4;}
+.cat-desc{font-size:11px;color:#555;margin-top:2px;}
+
+.gancho-item{background:#1a1a1a;border:1px solid #222;border-radius:9px;padding:12px 14px;margin-bottom:8px;}
+.gancho-item:last-child{margin-bottom:0;}
+.gancho-txt{font-size:14px;font-weight:600;color:#f0f0f4;line-height:1.5;margin-bottom:10px;}
+.gancho-footer{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.gancho-meta{display:flex;flex-direction:column;gap:4px;}
+.gatilho-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.g-curiosidade{background:rgba(200,242,48,0.08);color:#c8f230;}
+.g-medo{background:rgba(255,71,87,0.08);color:#ff4757;}
+.g-identidade{background:rgba(59,130,246,0.08);color:#3b82f6;}
+.g-indignacao{background:rgba(255,107,53,0.08);color:#ff6b35;}
+.g-nostalgia{background:rgba(167,139,250,0.08);color:#a78bfa;}
+.g-aspiracao{background:rgba(20,184,166,0.08);color:#14b8a6;}
+.g-urgencia{background:rgba(249,83,198,0.08);color:#f953c6;}
+.g-surpresa{background:rgba(200,242,48,0.08);color:#c8f230;}
+.gancho-primeiras{font-size:10px;color:#444;}
+.gancho-why{font-size:11px;color:#555;max-width:220px;line-height:1.5;}
+.usar-btn{padding:5px 11px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid rgba(249,83,198,0.28);background:rgba(249,83,198,0.06);color:#f953c6;font-family:inherit;transition:all 0.15s;white-space:nowrap;}
+.usar-btn:hover{background:rgba(249,83,198,0.14);}
+
+.errbox{background:rgba(255,71,87,0.07);border:1px solid rgba(255,71,87,0.2);border-radius:10px;padding:14px 18px;color:#ff6b6b;font-size:13px;line-height:1.6;}
+.export-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
+@media(max-width:768px){.main{grid-template-columns:1fr}aside{border-right:none;border-bottom:1px solid #1e1e1e}.hero,.results{padding:16px}}
 </style>
 </head>
 <body>
@@ -180,17 +164,12 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
 </nav>
 
 <div class="hero">
-  <h1>Da tendência ao post viral em 1 clique</h1>
-  <p>Cole uma tendência do FoodPulse ou escreva um tema. Escolha o modo:</p>
-  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
-    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.6;flex:1;min-width:160px;">
-      <div style="font-weight:700;color:#c8f230;margin-bottom:4px;">🤖 Automático</div>
-      <div style="color:#555;">IA decide o melhor gancho + padrão + gera o post. 1 clique só.</div>
-    </div>
-    <div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.6;flex:1;min-width:160px;">
-      <div style="font-weight:700;color:#a78bfa;margin-bottom:4px;">🎨 Manual</div>
-      <div style="color:#555;">Você gera os ganchos, escolhe o favorito e controla cada detalhe.</div>
-    </div>
+  <h1>Da tendência ao post viral</h1>
+  <p>Cole um tema ou tendência do FoodPulse e escolha o modo:</p>
+  <div class="modes-row">
+    <div class="mode-card"><div class="mode-card-title" style="color:#c8f230;">🤖 Automático</div><div style="color:#555;">IA decide tudo. 1 clique.</div></div>
+    <div class="mode-card"><div class="mode-card-title" style="color:#a78bfa;">🎣 Ganchos</div><div style="color:#555;">15 ganchos prontos. Você escolhe.</div></div>
+    <div class="mode-card"><div class="mode-card-title" style="color:#f953c6;">✨ Manual</div><div style="color:#555;">Controle total. Você decide tudo.</div></div>
   </div>
 </div>
 
@@ -202,7 +181,7 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
     </div>
 
     <div>
-      <div class="slabel">Formato do Post</div>
+      <div class="slabel">Formato</div>
       <button class="chip on" data-fmt="carrossel" onclick="setFmt(this)"><span class="ico">🎠</span>Carrossel (slides)</button>
       <button class="chip" data-fmt="reels" onclick="setFmt(this)"><span class="ico">🎬</span>Roteiro de Reels</button>
       <button class="chip" data-fmt="stories" onclick="setFmt(this)"><span class="ico">⭕</span>Stories</button>
@@ -217,18 +196,22 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
     </div>
 
     <div>
-      <div class="slabel">Padrão de Hook</div>
-      <button class="chip on" data-fmt-hook="morte" onclick="toggleHookPad(this)"><span class="ico">💀</span>A Morte de X</button>
-      <button class="chip" data-fmt-hook="geracao" onclick="toggleHookPad(this)"><span class="ico">📱</span>Por que [Geração] está...</button>
-      <button class="chip" data-fmt-hook="investigando" onclick="toggleHookPad(this)"><span class="ico">🔍</span>Investigando [fenômeno]</button>
-      <button class="chip" data-fmt-hook="contraste" onclick="toggleHookPad(this)"><span class="ico">⚡</span>Contraste / Antítese</button>
-      <button class="chip" data-fmt-hook="pop" onclick="toggleHookPad(this)"><span class="ico">🎬</span>Como [elemento pop]...</button>
-      <button class="chip" data-fmt-hook="existencial" onclick="toggleHookPad(this)"><span class="ico">🤔</span>Provocação existencial</button>
+      <div class="slabel">Padrão de Hook (modo manual)</div>
+      <button class="chip on" data-hook="morte" onclick="setHook(this)"><span class="ico">💀</span>A Morte de X</button>
+      <button class="chip" data-hook="geracao" onclick="setHook(this)"><span class="ico">📱</span>Por que [Geração]...</button>
+      <button class="chip" data-hook="investigando" onclick="setHook(this)"><span class="ico">🔍</span>Investigando [fenômeno]</button>
+      <button class="chip" data-hook="contraste" onclick="setHook(this)"><span class="ico">⚡</span>Contraste / Antítese</button>
+      <button class="chip" data-hook="pop" onclick="setHook(this)"><span class="ico">🎬</span>Como [elemento pop]</button>
+      <button class="chip" data-hook="existencial" onclick="setHook(this)"><span class="ico">🤔</span>Provocação existencial</button>
     </div>
 
-    <button class="genbtn" id="genBtn" onclick="generatePost()">✨ Gerar Post</button>
-    <button class="genbtn" id="ganBtn" onclick="generateGanchos()" style="background:#1a1a2a;color:#a78bfa;border:1px solid rgba(167,139,250,0.3);margin-top:6px;">🎣 Gerar Arsenal de Ganchos</button>
-    <button class="genbtn" id="autoBtn" onclick="generateAuto()" style="background:#0a1a0a;color:#c8f230;border:1px solid rgba(200,242,48,0.3);margin-top:6px;">🤖 Modo Automático</button>
+    <hr class="divider">
+
+    <button class="btn-main btn-auto" id="autoBtn" onclick="runAuto()">🤖 Modo Automático</button>
+    <button class="btn-main btn-ganchos" id="ganBtn" onclick="runGanchos()">🎣 Gerar Arsenal de Ganchos</button>
+    <button class="btn-main btn-manual" id="manBtn" onclick="runManual()">✨ Gerar Post Manual</button>
+
+    <div class="sfooter">Powered by Claude AI · BrandsDecoded methodology</div>
   </aside>
 
   <div class="content">
@@ -238,325 +221,451 @@ aside { border-right:1px solid #1e1e1e; padding:22px 18px; display:flex; flex-di
       <button class="tab" id="tab-legenda" onclick="switchTab('legenda')">Só a Legenda</button>
       <button class="tab" id="tab-raw" onclick="switchTab('raw')">Dados Brutos</button>
     </div>
+    <div id="exportbar" class="exportbar" style="display:none;">
+      <button class="ebtn pk" onclick="copyAll()">📋 Copiar tudo</button>
+      <button class="ebtn" onclick="exportTxt()">⬇ Exportar .txt</button>
+    </div>
     <div class="results" id="results">
       <div class="empty">
         <div class="empty-ico">📱</div>
         <h2>Pronta para criar</h2>
-        <p>Cole uma tendência do FoodPulse ou escreva um tema e clique em <strong>Gerar Post</strong>.</p>
+        <p>Cole um tema e escolha o modo: <strong>Automático</strong>, <strong>Ganchos</strong> ou <strong>Manual</strong>.</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+// ─── STATE ───────────────────────────────────────────
 let fmt = 'carrossel';
-let hookOn = false;
+let hook = 'morte';
+let activeTab = 'post';
+let lastPost = null;
 let lastGanchos = null;
 
-async function generateAuto() {
-  const tema = document.getElementById('temaInput').value.trim();
-  if (!tema) { alert('Cole um tema ou tendência do FoodPulse!'); return; }
+// ─── SIDEBAR CONTROLS ────────────────────────────────
+function setFmt(el) {
+  fmt = el.dataset.fmt;
+  document.querySelectorAll('.chip[data-fmt]').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
 
-  const btn = document.getElementById('autoBtn');
-  btn.disabled = true;
-  btn.innerHTML = '⟳ Analisando...';
+function toggleAb(el) { el.classList.toggle('on'); }
 
-  activeTab = 'post';
+function setHook(el) {
+  hook = el.dataset.hook;
+  document.querySelectorAll('.chip[data-hook]').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function getAbordagem() {
+  const abs = [...document.querySelectorAll('.chip[data-ab].on')].map(a => a.dataset.ab);
+  if (abs.includes('nacional') && abs.includes('local')) return 'nacional com toque local de Camboriú/SC';
+  if (abs.includes('local')) return 'focado em Camboriú e litoral catarinense';
+  return 'nacional';
+}
+
+function getHookLabel() {
+  const map = {
+    morte: 'A Morte de X (lift +119%, média 57k likes)',
+    geracao: 'Por que [Geração] está [comportamento inesperado] (lift +119%, média 28k likes)',
+    investigando: 'Investigando [fenômeno] (lift +99%, média 18k likes)',
+    contraste: 'Contraste/Antítese — dois pólos em tensão (média 22k likes)',
+    pop: 'Como [elemento pop] [ação inesperada] (média 20k likes)',
+    existencial: 'Provocação existencial — pergunta retórica profunda (média 14k likes)'
+  };
+  return map[hook] || hook;
+}
+
+// ─── TAB CONTROL ─────────────────────────────────────
+function switchTab(t) {
+  activeTab = t;
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.getElementById('tab-post').classList.add('on');
+  document.getElementById('tab-' + t).classList.add('on');
+  if (t === 'ganchos') { if (lastGanchos) renderGanchos(lastGanchos); return; }
+  if (lastPost) renderPost(lastPost);
+}
+
+// ─── HELPERS ─────────────────────────────────────────
+function getTema() { return document.getElementById('temaInput').value.trim(); }
+
+function setLoading(color, msgs) {
   document.getElementById('exportbar').style.display = 'none';
-  lastData = null;
-
+  lastPost = null;
   const el = document.getElementById('results');
-  const msgs = ['Analisando o tema...', 'Escolhendo o melhor gancho...', 'Selecionando o padrão ideal...', 'Escrevendo os slides...', 'Finalizando o post...'];
+  el.innerHTML = `<div class="loading"><div class="ring" style="border-top-color:${color}"></div><p id="lmsg">${msgs[0]}</p></div>`;
   let mi = 0;
-  el.innerHTML = `<div class="loading"><div class="ring" style="border-top-color:#c8f230"></div><p id="lmsg">${msgs[0]}</p></div>`;
-  const iv = setInterval(() => { mi=(mi+1)%msgs.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=msgs[mi]; btn.innerHTML=`⟳ ${msgs[mi]}`; }, 2000);
+  return setInterval(() => { mi = (mi+1)%msgs.length; const lm = document.getElementById('lmsg'); if (lm) lm.textContent = msgs[mi]; }, 2000);
+}
 
+function disableBtns(state) {
+  ['autoBtn','ganBtn','manBtn'].forEach(id => document.getElementById(id).disabled = state);
+}
+
+function resetBtns() {
+  document.getElementById('autoBtn').innerHTML = '🤖 Modo Automático';
+  document.getElementById('ganBtn').innerHTML = '🎣 Gerar Arsenal de Ganchos';
+  document.getElementById('manBtn').innerHTML = '✨ Gerar Post Manual';
+  disableBtns(false);
+}
+
+async function callAPI(prompt) {
+  const res = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 4000,
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP ' + res.status); }
+  const data = await res.json();
+  const txt = (data.content||[]).filter(b => b.type === 'text').map(b => b.text).join('\n');
+  let js = txt.replace(/```json|```/g, '').trim();
+  const s = js.indexOf('{'), e2 = js.lastIndexOf('}');
+  if (s !== -1 && e2 !== -1) js = js.slice(s, e2+1);
+  return JSON.parse(js);
+}
+
+// ─── PROMPTS ─────────────────────────────────────────
+function buildPostPrompt(autoMode) {
+  const tema = getTema();
   const abordagem = getAbordagem();
-  const fmt = document.querySelector('.chip[data-fmt].on')?.dataset?.fmt || 'carrossel';
 
-  const prompt = `Você é a Máquina de Carrosséis da BrandsDecoded — sistema editorial calibrado por 1.168 posts analisados. Seu padrão é "um repórter da Folha de S.Paulo escreveria assim?".
+  const hookInstrucao = autoMode
+    ? `PASSO 2 — Escolha automaticamente o MELHOR padrão de hook para esse tema baseado nos lifts:
+• "A Morte de X" — lift +119%, média 57k likes — quando algo está acabando ou mudando
+• "Por que [Geração] está..." — lift +119%, média 28k likes — comportamento inesperado
+• "Investigando [fenômeno]" — lift +99%, média 18k likes — tom jornalístico
+• "Contraste/Antítese" — média 22k likes — dois pólos em tensão
+• "Como [elemento pop]..." — média 20k likes — referência cultural
+• "Provocação existencial" — média 14k likes — reflexão profunda
+Indique o padrão escolhido no campo "padrao_hook_escolhido".`
+    : `PADRÃO DE HOOK ESCOLHIDO: ${getHookLabel()}. Use esse padrão na headline e no gancho.`;
+
+  const fmtMap = {
+    carrossel: 'Carrossel de 9 slides com anatomia BrandsDecoded: Capa → Hook → Mecanismo pt1 → Mecanismo pt2 → Prova/Dados → Expansão → Aplicação → Direção/CTA → Fechamento',
+    reels: 'Roteiro de Reels 30-60s: 6 cenas. Cena 1 = abertura impactante (0-3s). Cenas 2-5 = desenvolvimento. Cena 6 = CTA.',
+    stories: 'Sequência de 6 stories. Story 1 = gancho. Stories 2-4 = conteúdo. Story 5 = enquete/pergunta. Story 6 = CTA.',
+    meme: '3 opções de meme. Cada opção: formato, texto de cima + texto de baixo, template sugerido.',
+    curiosidades: '5 curiosidades REAIS e verificáveis buscadas na internet. Cada uma: título impactante, texto explicativo com dado+fonte, como conectar ao Hamburguer das Meninas.'
+  };
+
+  return `Você é a Máquina de Carrosséis da BrandsDecoded — sistema editorial calibrado por 1.168 posts analisados. Padrão: "um repórter da Folha de S.Paulo escreveria assim?".
 
 MARCA: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC.
 TEMA: ${tema}
-FORMATO: ${fmt}
+FORMATO: ${fmt} — ${fmtMap[fmt]}
 ABORDAGEM: ${abordagem}
+MODO: ${autoMode ? 'AUTOMÁTICO — IA decide o melhor padrão' : 'MANUAL'}
 
-MODO AUTOMÁTICO — execute tudo em sequência sem mostrar o processo:
+${hookInstrucao}
 
-PASSO 1 — TRIAGEM: Analise o tema (transformação, fricção, ângulo narrativo, evidências).
+PIPELINE INTERNO (executar em sequência):
+1. TRIAGEM: analise o tema (transformação, fricção, ângulo narrativo, evidências)
+2. GANCHO: gere a headline mais forte para o padrão escolhido
+3. ESPINHA DORSAL: Hook → Mecanismo → Prova → Aplicação → Direção
+4. COPY DOS SLIDES: escreva cada slide como parágrafo de reportagem
 
-PASSO 2 — ESCOLHA DO GANCHO: Com base nos padrões da BrandsDecoded, escolha automaticamente o melhor padrão de hook para esse tema:
-• "A Morte de X" (lift +119%, média 57k likes) — quando algo está acabando
-• "Por que [Geração] está..." (lift +119%, média 28k likes) — comportamento inesperado
-• "Investigando [fenômeno]" (lift +99%, média 18k likes) — tom jornalístico
-• "Contraste/Antítese" (média 22k likes) — dois pólos em tensão
-• "Como [elemento pop]..." (média 20k likes) — referência cultural
-• "Provocação existencial" (média 14k likes) — reflexão profunda
+TOM: Aconchegante, acolhedor, feminino e autêntico. Mistura formal + informal. NUNCA coach, NUNCA corporativo.
+REGRA: O post NÃO vende hamburguer — fala de cultura e comportamento. Pessoas compartilham porque se identificam.
 
-PASSO 3 — GERE O MELHOR GANCHO para esse tema e padrão escolhido. O gancho deve:
-• Parar o scroll nas primeiras 3 palavras
-• Criar lacuna de informação irresistível
-• Ser específico para o nicho alimentar/comportamental
-• PROIBIDO: "Você sabia", "Descubra", "Aprenda", "incrível", "surpreendente"
-
-PASSO 4 — ESPINHA DORSAL: Hook → Mecanismo → Prova → Aplicação → Direção
-
-PASSO 5 — COPY DOS SLIDES com anatomia BrandsDecoded:
-• Slide 1: Capa (headline viral com o gancho escolhido)
-• Slide 2: Hook/Problema — dark — tensão ou dado surpreendente
-• Slide 3: Contexto/Mecanismo — light — o motor por trás do fenômeno
-• Slide 4: Mecanismo pt.2 — dark — aprofunda
-• Slide 5: Prova/Dados — light — dados concretos com fonte
-• Slide 6: Expansão/Virada — dark — vira a perspectiva
-• Slide 7: Aplicação — light — mundo real
-• Slide 8: Direção/CTA — gradient
-• Slide 9: Fechamento — light — virada temática genuína, NUNCA resumo
-
-REGRAS ABSOLUTAS:
-• Tom aconchegante e autêntico — não coach, não corporativo
-• Artigos sempre presentes (um/uma/o/a)
-• Conectivos naturais (porque, só que, por isso, mas, aí, então)
-• PROIBIDO: "Não é X, é Y" / "E isso muda tudo" / "No fim das contas" / "Cada vez mais" / "Em um mundo onde" / "Você precisa" / "Sem X. Sem Y." / "Menos X, mais Y"
-• Tags dos slides: concretas e jornalísticas, nunca motivacionais vazios
-• CTA diretivo sem agradecimento
-• O post NÃO vende hamburguer — fala de cultura e comportamento
+FILTRO OBRIGATÓRIO — PROIBIDO:
+"Não é X, é Y" · "E isso muda tudo" · "No fim das contas" · "Cada vez mais" · "Em um mundo onde" · "Você precisa" · "Sem X. Sem Y." · "Menos X, mais Y" · "Hoje vamos falar sobre" · "Espero que tenha gostado" · Declarações diretas sem tensão · Aberturas com "Descubra/Saiba/Conheça"
+Tags dos slides: CONCRETAS e jornalísticas. NUNCA "A virada que ninguém esperava" / "Quem entende sai na frente"
+Artigos sempre presentes. Conectivos naturais em cada bloco.
 
 Responda SOMENTE com JSON válido:
 {
   "formato": "${fmt}",
-  "padrao_hook_escolhido": "Nome do padrão escolhido e por quê",
+  "padrao_hook_escolhido": "${autoMode ? 'Nome do padrão e por quê foi escolhido' : getHookLabel()}",
   "tema_final": "Como o tema foi adaptado",
-  "capas": [
-    "Opção 1 usando o padrão escolhido",
-    "Opção 2 variação do mesmo padrão",
-    "Opção 3 padrão alternativo"
-  ],
-  "gancho": "O melhor gancho gerado automaticamente",
+  "capas": ["Opção 1 de headline", "Opção 2", "Opção 3"],
+  "gancho": "O hook principal que para o scroll",
   "slides": [
-    {
-      "numero": 1,
-      "titulo_slide": "TAG DO SLIDE",
-      "texto_slide": "Texto completo como parágrafo de reportagem",
-      "instrucao_visual": "Como diagramar"
-    }
+    { "numero": 1, "titulo_slide": "TAG DO SLIDE", "texto_slide": "Texto completo como parágrafo de reportagem", "instrucao_visual": "Como diagramar" }
   ],
-  "legenda": "Legenda completa com emojis e CTA diretivo",
-  "hashtags_nicho": ["#hashtag1"],
+  "legenda": "Legenda completa com emojis e CTA diretivo. Sem agradecimento.",
+  "hashtags_nicho": ["#tag1"],
   "hashtags_local": ["#Camboriu", "#LitoralSC"],
-  "hashtags_tendencia": ["#hashtag1"],
-  "melhor_dia": "Quinta ou Sexta",
-  "melhor_horario": "18h-20h",
+  "hashtags_tendencia": ["#tag1"],
+  "melhor_dia": "Dia ideal",
+  "melhor_horario": "Horário ideal",
   "dica_horario": "Por quê esse horário",
-  "dica_engajamento": "Dica específica para engajamento"
+  "dica_engajamento": "Dica específica de engajamento"
 }
-JSON puro, sem texto antes ou depois.`;
-
-  try {
-    const res = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
-    const data = await res.json();
-    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-    let js = txt.replace(/```json|```/g,'').trim();
-    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
-    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
-    const parsed = JSON.parse(js);
-    parsed._ts = new Date().toISOString();
-    parsed._modo = 'automatico';
-    lastData = parsed;
-    clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '🤖 Modo Automático';
-    document.getElementById('exportbar').style.display = 'flex';
-    renderResults(parsed);
-  } catch(err) {
-    clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '🤖 Modo Automático';
-    el.innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
-  }
+JSON puro.`;
 }
 
-async function generateGanchos() {
-  const tema = document.getElementById('temaInput').value.trim();
-  if (!tema) { alert('Digite um tema ou cole uma tendência do FoodPulse!'); return; }
-
-  const btn = document.getElementById('ganBtn');
-  btn.disabled = true;
-  btn.innerHTML = '⟳ Gerando ganchos...';
-
-  activeTab = 'ganchos';
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.getElementById('tab-ganchos').classList.add('on');
-
-  const el = document.getElementById('results');
-  el.innerHTML = `<div class="loading"><div class="ring" style="border-top-color:#a78bfa"></div><p id="lmsg">Buscando os melhores ganchos...</p></div>`;
-
-  const msgs = ['Analisando o tema...','Criando ganchos de curiosidade...','Criando ganchos de controvérsia...','Criando ganchos de narrativa...'];
-  let mi = 0;
-  const iv = setInterval(() => { mi=(mi+1)%msgs.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=msgs[mi]; }, 1800);
-
-  const prompt = `Você é um publicitário especialista em mídias sociais e copywriting viral para Instagram, com profundo conhecimento em psicologia do consumo e alimentação.
+function buildGanchosPrompt() {
+  const tema = getTema();
+  const abordagem = getAbordagem();
+  return `Você é um publicitário especialista em mídias sociais e copywriting viral para Instagram, com profundo conhecimento em psicologia do consumo e alimentação brasileira.
 
 NICHO: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC. Público: Gen Z e Millennials brasileiros.
 TEMA: ${tema}
+ABORDAGEM: ${abordagem}
 
-Crie um arsenal de ganchos irresistíveis para esse nicho e tema. Cada gancho deve:
-1. Interromper a rolagem nas primeiras 3 palavras
-2. Criar uma lacuna de informação que o leitor PRECISA fechar
-3. Ser específico o suficiente para não funcionar em qualquer outro nicho
-4. Passar no teste: qualquer pessoa pararia o scroll para ler isso?
+Crie um arsenal de 15 ganchos irresistíveis (5 por categoria). Cada gancho deve:
+1. Parar a rolagem nas primeiras 3 palavras
+2. Criar lacuna de informação que o leitor PRECISA fechar
+3. Ser específico — não funciona em qualquer outro nicho
+4. Passar no teste: qualquer pessoa pararia o scroll?
 
-REGRAS OBRIGATÓRIAS:
-• Proibido começar com "Você sabia", "Descubra", "Aprenda", "Dicas de"
-• Proibido usar "incrível", "surpreendente", "inacreditável" como abertura
-• As primeiras 3 palavras DEVEM criar tensão, curiosidade ou contradição imediata
-• Tom: aconchegante e autêntico — não coach, não corporativo
-• Conectar ao universo alimentar e comportamental do público jovem brasileiro
+PROIBIDO como abertura: "Você sabia" · "Descubra" · "Aprenda" · "Dicas de" · "incrível" · "surpreendente"
+Primeiras 3 palavras DEVEM criar tensão, curiosidade ou contradição imediata.
+Tom: aconchegante e autêntico — não coach, não corporativo.
 
 Responda SOMENTE com JSON válido:
 {
-  "tema_analisado": "Como o tema foi interpretado para gerar os ganchos",
+  "tema_analisado": "Como o tema foi interpretado",
   "categorias": [
     {
       "nome": "Curiosidade",
       "emoji": "🤯",
-      "descricao": "Criam uma lacuna de informação irresistível — o leitor sente que está perdendo algo",
+      "descricao": "Criam lacuna de informação irresistível — o leitor sente que está perdendo algo",
       "ganchos": [
-        {
-          "texto": "O gancho completo pronto para usar",
-          "primeiras_3_palavras": "As 3 primeiras palavras",
-          "gatilho": "curiosidade",
-          "por_que_funciona": "Explicação em 1 frase de por que esse gancho para o scroll"
-        }
+        { "texto": "Gancho completo pronto para usar", "primeiras_3": "As 3 primeiras palavras", "gatilho": "curiosidade", "por_que": "Por que para o scroll em 1 frase" }
       ]
     },
     {
       "nome": "Controvérsia",
       "emoji": "🔥",
-      "descricao": "Provocam discordância ou indignação controlada — o leitor quer provar que está certo",
+      "descricao": "Provocam discordância controlada — o leitor quer provar que está certo",
       "ganchos": [
-        {
-          "texto": "O gancho completo",
-          "primeiras_3_palavras": "As 3 primeiras palavras",
-          "gatilho": "indignacao",
-          "por_que_funciona": "Explicação em 1 frase"
-        }
+        { "texto": "Gancho completo", "primeiras_3": "Três primeiras", "gatilho": "indignacao", "por_que": "Por que funciona" }
       ]
     },
     {
       "nome": "Narrativa",
       "emoji": "📖",
-      "descricao": "Abrem uma história que o leitor precisa ver o final — ativam o instinto de completar",
+      "descricao": "Abrem uma história que o leitor precisa ver o final — instinto de completar",
       "ganchos": [
-        {
-          "texto": "O gancho completo",
-          "primeiras_3_palavras": "As 3 primeiras palavras",
-          "gatilho": "nostalgia",
-          "por_que_funciona": "Explicação em 1 frase"
-        }
+        { "texto": "Gancho completo", "primeiras_3": "Três primeiras", "gatilho": "nostalgia", "por_que": "Por que funciona" }
       ]
     }
   ],
-  "melhor_gancho": "O gancho mais forte de todos — copiar e usar agora",
-  "por_que_e_o_melhor": "Por que esse é o melhor para esse tema e nicho específico"
+  "melhor_gancho": "O gancho mais forte de todos",
+  "por_que_melhor": "Por que é o melhor para esse tema e nicho"
+}
+Gatilhos: curiosidade · medo · identidade · indignacao · nostalgia · aspiracao · urgencia · surpresa. JSON puro.`;
 }
 
-Gere exatamente 5 ganchos por categoria (15 no total). Gatilhos possíveis: curiosidade, medo, identidade, indignacao, nostalgia, aspiracao, urgencia, surpresa. JSON puro.`;
-
+// ─── RUNNERS ─────────────────────────────────────────
+async function runAuto() {
+  const tema = getTema();
+  if (!tema) { alert('Cole um tema ou tendência do FoodPulse!'); return; }
+  disableBtns(true);
+  document.getElementById('autoBtn').innerHTML = '⟳ Analisando...';
+  activeTab = 'post';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-post').classList.add('on');
+  const iv = setLoading('#c8f230', ['Analisando o tema...','Escolhendo o melhor padrão...','Escrevendo os slides...','Finalizando o post...']);
   try {
-    const res = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
-    const data = await res.json();
-    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-    let js = txt.replace(/```json|```/g,'').trim();
-    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
-    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
-    const parsed = JSON.parse(js);
+    const parsed = await callAPI(buildPostPrompt(true));
     parsed._ts = new Date().toISOString();
-    lastGanchos = parsed;
+    parsed._modo = 'auto';
+    lastPost = parsed;
     clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '🎣 Gerar Arsenal de Ganchos';
-    renderGanchos(parsed);
+    resetBtns();
+    document.getElementById('exportbar').style.display = 'flex';
+    renderPost(parsed);
   } catch(err) {
     clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '🎣 Gerar Arsenal de Ganchos';
+    resetBtns();
     document.getElementById('results').innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
   }
 }
 
-const GATILHO_CLASS = {
-  curiosidade:'gatilho-curiosidade', medo:'gatilho-medo', identidade:'gatilho-identidade',
-  indignacao:'gatilho-indignacao', nostalgia:'gatilho-nostalgia', aspiracao:'gatilho-aspiracao',
-  urgencia:'gatilho-urgencia', surpresa:'gatilho-surpresa'
-};
-const GATILHO_LABEL = {
-  curiosidade:'🤯 Curiosidade', medo:'😨 Medo/Alerta', identidade:'🪞 Identidade',
-  indignacao:'🔥 Indignação', nostalgia:'💜 Nostalgia', aspiracao:'✨ Aspiração',
-  urgencia:'⚡ Urgência', surpresa:'😱 Surpresa'
-};
+async function runManual() {
+  const tema = getTema();
+  if (!tema) { alert('Cole um tema ou tendência do FoodPulse!'); return; }
+  disableBtns(true);
+  document.getElementById('manBtn').innerHTML = '⟳ Gerando post...';
+  activeTab = 'post';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-post').classList.add('on');
+  const iv = setLoading('#f953c6', ['Analisando a tendência...','Criando o gancho...','Escrevendo os slides...','Montando a legenda...','Escolhendo as hashtags...']);
+  try {
+    const parsed = await callAPI(buildPostPrompt(false));
+    parsed._ts = new Date().toISOString();
+    parsed._modo = 'manual';
+    lastPost = parsed;
+    clearInterval(iv);
+    resetBtns();
+    document.getElementById('exportbar').style.display = 'flex';
+    renderPost(parsed);
+  } catch(err) {
+    clearInterval(iv);
+    resetBtns();
+    document.getElementById('results').innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
+  }
+}
+
+async function runGanchos() {
+  const tema = getTema();
+  if (!tema) { alert('Cole um tema ou tendência do FoodPulse!'); return; }
+  disableBtns(true);
+  document.getElementById('ganBtn').innerHTML = '⟳ Gerando ganchos...';
+  activeTab = 'ganchos';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-ganchos').classList.add('on');
+  const iv = setLoading('#a78bfa', ['Analisando o tema...','Criando ganchos de curiosidade...','Criando ganchos de controvérsia...','Criando ganchos de narrativa...']);
+  try {
+    const parsed = await callAPI(buildGanchosPrompt());
+    parsed._ts = new Date().toISOString();
+    lastGanchos = parsed;
+    clearInterval(iv);
+    resetBtns();
+    renderGanchos(parsed);
+  } catch(err) {
+    clearInterval(iv);
+    resetBtns();
+    document.getElementById('results').innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
+  }
+}
+
+// ─── RENDER POST ─────────────────────────────────────
+const FMT_LABELS = { carrossel:'🎠 Carrossel', reels:'🎬 Reels', stories:'⭕ Stories', meme:'😂 Meme', curiosidades:'🤯 Curiosidades' };
+
+function renderPost(d) {
+  const el = document.getElementById('results');
+  if (activeTab === 'raw') { el.innerHTML = `<pre style="font-size:11px;color:#555;line-height:1.7;white-space:pre-wrap;word-break:break-word;">${JSON.stringify(d,null,2)}</pre>`; return; }
+  if (activeTab === 'legenda') { renderLegenda(d); return; }
+
+  const now = new Date(d._ts).toLocaleString('pt-BR');
+  let h = `<div class="grid">
+    <div class="gheader"><h2>${FMT_LABELS[d.formato]||d.formato}</h2><span class="gmeta">${now}</span></div>`;
+
+  if (d._modo === 'auto' && d.padrao_hook_escolhido) {
+    h += `<div class="auto-badge">🤖 <strong style="color:#c8f230;">Modo Automático</strong> — Padrão escolhido: <strong style="color:#f0f0f4;">${d.padrao_hook_escolhido}</strong></div>`;
+  }
+
+  if (d.tema_final) h += `<div class="tema-box"><strong style="color:#444;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;">Tema adaptado</strong><br>${d.tema_final}</div>`;
+
+  if (d.gancho) h += `<div class="hook-destaque"><div class="hook-lbl">🎣 Gancho principal</div><div class="hook-txt">"${d.gancho}"</div></div>`;
+
+  if (d.capas?.length) {
+    h += `<div class="section-card"><div class="section-title">🖼️ 3 opções de capa</div><div class="capas-wrap">
+      ${d.capas.map((c,i)=>`<div class="capa-item"><div class="capa-num">${i+1}</div><div class="capa-text">${c}</div></div>`).join('')}
+    </div></div>`;
+  }
+
+  if (d.slides?.length) {
+    h += `<div class="section-card"><div class="section-title">📋 Slides / Roteiro</div>
+      ${d.slides.map(s=>`<div class="slide-item">
+        <div class="slide-num">Slide ${s.numero}</div>
+        <div class="slide-titulo">${s.titulo_slide||''}</div>
+        <div class="slide-texto">${s.texto_slide||''}</div>
+        ${s.instrucao_visual?`<div class="slide-visual">📐 ${s.instrucao_visual}</div>`:''}
+      </div>`).join('')}
+    </div>`;
+  }
+
+  if (d.curiosidades?.length) {
+    h += `<div class="section-card"><div class="section-title">🤯 Curiosidades</div>
+      ${d.curiosidades.map((c,i)=>`<div class="slide-item">
+        <div class="slide-num">${i+1} · ${c.tipo||''}</div>
+        <div class="slide-titulo">${c.titulo||''}</div>
+        <div class="slide-texto">${c.texto||''}</div>
+        ${c.gancho_marca?`<div class="slide-visual">🍔 ${c.gancho_marca}</div>`:''}
+      </div>`).join('')}
+    </div>`;
+  }
+
+  if (d.legenda) {
+    h += `<div class="section-card"><div class="section-title">✍️ Legenda <button class="ebtn" onclick="cpText('${encodeURIComponent(d.legenda)}','legenda')">Copiar</button></div>
+      <div class="legenda-box">${d.legenda}</div></div>`;
+  }
+
+  const allTags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
+  if (allTags.length) {
+    h += `<div class="section-card"><div class="section-title">#️⃣ Hashtags <button class="ebtn" onclick="cpText('${encodeURIComponent(allTags.join(' '))}','tags')">Copiar</button></div>
+      <div class="hashtags-wrap">
+        ${(d.hashtags_nicho||[]).map(t=>`<span class="hashtag">${t}</span>`).join('')}
+        ${(d.hashtags_tendencia||[]).map(t=>`<span class="hashtag">${t}</span>`).join('')}
+        ${(d.hashtags_local||[]).map(t=>`<span class="hashtag local">${t}</span>`).join('')}
+      </div></div>`;
+  }
+
+  if (d.melhor_dia) {
+    h += `<div class="section-card"><div class="section-title">📅 Melhor momento</div>
+      <div class="timing-grid">
+        <div class="timing-item"><div class="timing-label">Dia</div><div class="timing-value">${d.melhor_dia}</div></div>
+        <div class="timing-item"><div class="timing-label">Horário</div><div class="timing-value">${d.melhor_horario||''}</div></div>
+      </div>
+      ${d.dica_horario?`<div class="dica-box">${d.dica_horario}</div>`:''}
+      ${d.dica_engajamento?`<div class="dica-box"><strong style="color:#f953c6;">💡</strong> ${d.dica_engajamento}</div>`:''}
+    </div>`;
+  }
+
+  h += '</div>';
+  el.innerHTML = h;
+}
+
+function renderLegenda(d) {
+  const allTags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
+  document.getElementById('results').innerHTML = `<div class="grid">
+    <div class="export-row">
+      <button class="ebtn pk" onclick="cpText('${encodeURIComponent(d.legenda||'')}','legenda')">📋 Copiar legenda</button>
+    </div>
+    <div class="section-card"><div class="section-title">✍️ Legenda</div><div class="legenda-box">${d.legenda||''}</div></div>
+    <div class="section-card"><div class="section-title">#️⃣ Hashtags</div>
+      <div class="hashtags-wrap">
+        ${(d.hashtags_nicho||[]).map(t=>`<span class="hashtag">${t}</span>`).join('')}
+        ${(d.hashtags_tendencia||[]).map(t=>`<span class="hashtag">${t}</span>`).join('')}
+        ${(d.hashtags_local||[]).map(t=>`<span class="hashtag local">${t}</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── RENDER GANCHOS ───────────────────────────────────
+const G_CLASS = { curiosidade:'g-curiosidade',medo:'g-medo',identidade:'g-identidade',indignacao:'g-indignacao',nostalgia:'g-nostalgia',aspiracao:'g-aspiracao',urgencia:'g-urgencia',surpresa:'g-surpresa' };
+const G_LABEL = { curiosidade:'🤯 Curiosidade',medo:'😨 Medo',identidade:'🪞 Identidade',indignacao:'🔥 Indignação',nostalgia:'💜 Nostalgia',aspiracao:'✨ Aspiração',urgencia:'⚡ Urgência',surpresa:'😱 Surpresa' };
 
 function renderGanchos(d) {
   const el = document.getElementById('results');
   const now = new Date(d._ts).toLocaleString('pt-BR');
-
   let h = `<div class="ganchos-grid">
-    <div class="ganchos-banner">
-      <strong>🎣 Arsenal de Ganchos — ${now}</strong><br>
-      ${d.tema_analisado || ''}<br><br>
-      <strong style="color:#f953c6;">🏆 Melhor gancho:</strong> "${d.melhor_gancho || ''}"<br>
-      <span style="font-size:11px;color:#444;">${d.por_que_e_o_melhor || ''}</span>
-    </div>
     <div class="export-row">
-      <button class="ebtn primary" onclick="copyGanchos()">📋 Copiar todos os ganchos</button>
+      <button class="ebtn pk" onclick="copyGanchos()">📋 Copiar todos</button>
       <button class="ebtn" onclick="exportGanchosTxt()">⬇ Exportar .txt</button>
+    </div>
+    <div class="ganchos-banner">
+      <strong style="color:#a78bfa;">🎣 Arsenal de Ganchos</strong> · ${now}<br>
+      ${d.tema_analisado||''}
+      <div class="melhor-gancho">
+        <div class="melhor-lbl">🏆 Melhor gancho</div>
+        <div class="melhor-txt">"${d.melhor_gancho||''}"</div>
+        <div class="melhor-why">${d.por_que_melhor||''}</div>
+      </div>
     </div>`;
 
-  (d.categorias || []).forEach(cat => {
-    h += `<div class="ganchos-categoria">
-      <div class="ganchos-cat-header">
-        <span class="ganchos-cat-ico">${cat.emoji}</span>
-        <div>
-          <div class="ganchos-cat-title">Ganchos de ${cat.nome}</div>
-          <div class="ganchos-cat-desc">${cat.descricao}</div>
-        </div>
+  (d.categorias||[]).forEach(cat => {
+    h += `<div class="ganchos-cat">
+      <div class="cat-header">
+        <span class="cat-ico">${cat.emoji}</span>
+        <div><div class="cat-title">Ganchos de ${cat.nome}</div><div class="cat-desc">${cat.descricao}</div></div>
       </div>`;
-
-    (cat.ganchos || []).forEach((g, i) => {
-      const gc = GATILHO_CLASS[g.gatilho] || 'gatilho-curiosidade';
-      const gl = GATILHO_LABEL[g.gatilho] || g.gatilho;
+    (cat.ganchos||[]).forEach(g => {
+      const gc = G_CLASS[g.gatilho]||'g-curiosidade';
+      const gl = G_LABEL[g.gatilho]||g.gatilho;
+      const textoEsc = (g.texto||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
       h += `<div class="gancho-item">
-        <div class="gancho-texto">"${g.texto}"</div>
+        <div class="gancho-txt">"${g.texto||''}"</div>
         <div class="gancho-footer">
-          <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <div class="gancho-meta">
             <span class="gatilho-badge ${gc}">${gl}</span>
-            <span class="gancho-primeiras">Primeiras 3 palavras: <strong style="color:#f0f0f4">${g.primeiras_3_palavras || ''}</strong></span>
+            <span class="gancho-primeiras">Primeiras 3: <strong style="color:#f0f0f4">${g.primeiras_3||''}</strong></span>
+            <span class="gancho-why">${g.por_que||''}</span>
           </div>
-          <div style="display:flex;gap:6px;align-items:center;">
-            <span style="font-size:11px;color:#444;max-width:200px;text-align:right;">${g.por_que_funciona || ''}</span>
-            <button class="usar-gancho-btn" onclick="usarGancho('${(g.texto||'').replace(/'/g,"\\'")}')">Usar →</button>
-          </div>
+          <button class="usar-btn" onclick="usarGancho('${textoEsc}')">Usar este →</button>
         </div>
       </div>`;
     });
-
     h += `</div>`;
   });
 
@@ -566,508 +675,70 @@ function renderGanchos(d) {
 
 function usarGancho(texto) {
   document.getElementById('temaInput').value = texto;
-  switchTab('post');
+  activeTab = 'post';
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-post').classList.add('on');
   document.getElementById('results').innerHTML = `<div class="empty">
     <div class="empty-ico">🎣</div>
     <h2>Gancho selecionado!</h2>
-    <p>O gancho foi colocado no campo de tema. Clique em <strong>✨ Gerar Post</strong> para criar o carrossel completo com ele.</p>
+    <p>Agora clique em <strong>🤖 Modo Automático</strong> ou <strong>✨ Gerar Post Manual</strong> para criar o carrossel completo.</p>
   </div>`;
+}
+
+// ─── COPY / EXPORT ────────────────────────────────────
+function cpText(encoded, id) {
+  navigator.clipboard.writeText(decodeURIComponent(encoded)).then(() => {
+    const tmp = document.createElement('div');
+    tmp.style.cssText = 'position:fixed;top:20px;right:20px;background:#f953c6;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;z-index:999;font-family:inherit;';
+    tmp.textContent = 'Copiado! ✓';
+    document.body.appendChild(tmp);
+    setTimeout(() => tmp.remove(), 1400);
+  });
+}
+
+function copyAll() {
+  if (!lastPost) return;
+  const d = lastPost;
+  let txt = `POSTMENINAS · ${FMT_LABELS[d.formato]||d.formato}\n${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
+  if (d.padrao_hook_escolhido) txt += `PADRÃO: ${d.padrao_hook_escolhido}\n\n`;
+  txt += `TEMA: ${d.tema_final}\nGANCHO: "${d.gancho}"\n\n`;
+  if (d.capas) txt += `CAPAS:\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
+  if (d.slides) txt += `SLIDES:\n${d.slides.map(s=>`Slide ${s.numero} [${s.titulo_slide}]\n${s.texto_slide}\n`).join('\n')}\n`;
+  if (d.curiosidades) txt += `CURIOSIDADES:\n${d.curiosidades.map((c,i)=>`${i+1}. ${c.titulo}\n${c.texto}\n`).join('\n')}\n`;
+  txt += `LEGENDA:\n${d.legenda}\n\nHASHTAGS:\n${[...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])].join(' ')}\n\nMELHOR DIA: ${d.melhor_dia} às ${d.melhor_horario}`;
+  navigator.clipboard.writeText(txt).then(() => alert('Post completo copiado!'));
+}
+
+function exportTxt() {
+  if (!lastPost) return;
+  const d = lastPost;
+  let txt = `POSTMENINAS · ${FMT_LABELS[d.formato]||d.formato}\nGerado em: ${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
+  if (d.padrao_hook_escolhido) txt += `PADRÃO ESCOLHIDO: ${d.padrao_hook_escolhido}\n\n`;
+  txt += `TEMA ADAPTADO\n${d.tema_final}\n\nGANCHO PRINCIPAL\n"${d.gancho}"\n\n`;
+  if (d.capas) txt += `OPÇÕES DE CAPA\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
+  if (d.slides) txt += `SLIDES\n${d.slides.map(s=>`--- Slide ${s.numero}: ${s.titulo_slide} ---\n${s.texto_slide}\nVisual: ${s.instrucao_visual||''}`).join('\n\n')}\n\n`;
+  if (d.curiosidades) txt += `CURIOSIDADES\n${d.curiosidades.map((c,i)=>`${i+1}. [${c.tipo}] ${c.titulo}\n${c.texto}\nConexão: ${c.gancho_marca||''}`).join('\n\n')}\n\n`;
+  txt += `LEGENDA\n${d.legenda}\n\nHASHTAGS\n${[...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])].join(' ')}\n\nTIMING\nDia: ${d.melhor_dia} · Horário: ${d.melhor_horario}\n${d.dica_horario||''}\n\nDICA DE ENGAJAMENTO\n${d.dica_engajamento||''}`;
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download = `postmeninas_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
 }
 
 function copyGanchos() {
   if (!lastGanchos) return;
-  let txt = `ARSENAL DE GANCHOS — ${new Date(lastGanchos._ts).toLocaleString('pt-BR')}\n`;
-  txt += `Tema: ${lastGanchos.tema_analisado}\n\n`;
-  txt += `🏆 MELHOR GANCHO: "${lastGanchos.melhor_gancho}"\n${lastGanchos.por_que_e_o_melhor}\n\n`;
-  (lastGanchos.categorias||[]).forEach(cat => {
-    txt += `${'='.repeat(40)}\n${cat.emoji} GANCHOS DE ${cat.nome.toUpperCase()}\n${cat.descricao}\n${'='.repeat(40)}\n`;
-    (cat.ganchos||[]).forEach((g,i) => { txt += `\n${i+1}. "${g.texto}"\nGatilho: ${GATILHO_LABEL[g.gatilho]||g.gatilho}\nPor quê funciona: ${g.por_que_funciona}\n`; });
-    txt += '\n';
+  const d = lastGanchos;
+  let txt = `ARSENAL DE GANCHOS · PostMeninas\n${new Date(d._ts).toLocaleString('pt-BR')}\nTema: ${d.tema_analisado}\n\n🏆 MELHOR: "${d.melhor_gancho}"\n${d.por_que_melhor}\n\n`;
+  (d.categorias||[]).forEach(cat => {
+    txt += `${'='.repeat(40)}\n${cat.emoji} ${cat.nome.toUpperCase()}\n\n`;
+    (cat.ganchos||[]).forEach((g,i) => { txt += `${i+1}. "${g.texto}"\nGatilho: ${G_LABEL[g.gatilho]||g.gatilho} · Primeiras 3: ${g.primeiras_3}\nPor quê: ${g.por_que}\n\n`; });
   });
   navigator.clipboard.writeText(txt).then(() => alert('Todos os ganchos copiados!'));
 }
 
 function exportGanchosTxt() {
   if (!lastGanchos) return;
-  let txt = `ARSENAL DE GANCHOS — PostMeninas\n${new Date(lastGanchos._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
-  txt += `TEMA: ${lastGanchos.tema_analisado}\n\n🏆 MELHOR GANCHO\n"${lastGanchos.melhor_gancho}"\n${lastGanchos.por_que_e_o_melhor}\n\n`;
-  (lastGanchos.categorias||[]).forEach(cat => {
-    txt += `${'='.repeat(50)}\n${cat.emoji} GANCHOS DE ${cat.nome.toUpperCase()}\n${cat.descricao}\n\n`;
-    (cat.ganchos||[]).forEach((g,i) => { txt += `${i+1}. "${g.texto}"\n   Gatilho: ${GATILHO_LABEL[g.gatilho]||g.gatilho} | Primeiras 3 palavras: ${g.primeiras_3_palavras}\n   Por quê: ${g.por_que_funciona}\n\n`; });
-  });
-  const a = document.createElement('a');
-  a.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
-  a.download = `ganchos_${new Date().toISOString().slice(0,10)}.txt`;
-  a.click();
-}
-let activeTab = 'post';
-
-const MSGS = ['Analisando a tendência...','Criando o gancho emocional...','Escrevendo os slides...','Montando a legenda...','Escolhendo as hashtags...'];
-
-function setFmt(el) {
-  fmt = el.dataset.fmt;
-  document.querySelectorAll('.chip[data-fmt]').forEach(b => b.classList.remove('on'));
-  el.classList.add('on');
-}
-
-function toggleAb(el) { el.classList.toggle('on'); }
-
-function toggleHookPad(el) {
-  document.querySelectorAll('.chip[data-fmt-hook]').forEach(b => b.classList.remove('on'));
-  el.classList.add('on');
-}
-
-function getHookPad() {
-  const el = document.querySelector('.chip[data-fmt-hook].on');
-  if (!el) return '';
-  const map = {
-    morte: 'A Morte de X — hook que declara o fim de algo, média 57k likes',
-    geracao: 'Por que [Geração] está [comportamento inesperado] — ativa identidade + curiosidade, média 28k likes',
-    investigando: 'Investigando [fenômeno] — tom jornalístico/documental, gera curiosidade por profundidade, média 18k likes',
-    contraste: 'Contraste/Antítese — dois pólos em tensão no mesmo hook, média 22k likes',
-    pop: 'Como [elemento pop/marca/personagem] [ação inesperada] — referência pop como âncora, média 20k likes',
-    existencial: 'Provocação existencial — pergunta retórica que ativa reflexão profunda, média 14k likes'
-  };
-  return map[el.dataset.fmtHook] || '';
-}
-
-function toggleHook() {}
-function toggleHookType(el) { el.classList.toggle('on'); }
-function getActiveHooks() { return []; }
-
-function getAbordagem() {
-  const abs = [...document.querySelectorAll('.chip[data-ab].on')].map(a => a.dataset.ab);
-  if (abs.includes('nacional') && abs.includes('local')) return 'nacional com toque local de Camboriú/SC';
-  if (abs.includes('local')) return 'focado em Camboriú e litoral catarinense';
-  return 'nacional, sem foco regional específico';
-}
-
-function switchTab(t) {
-  activeTab = t;
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.getElementById('tab-' + t).classList.add('on');
-  if (t === 'ganchos' && lastGanchos) { renderGanchos(lastGanchos); return; }
-  if (t !== 'ganchos' && lastData) renderResults(lastData);
-}
-
-async function generatePost() {
-  const tema = document.getElementById('temaInput').value.trim();
-  if (!tema) { alert('Cole uma tendência ou escreva um tema!'); return; }
-
-  const btn = document.getElementById('genBtn');
-  btn.disabled = true;
-  lastData = null;
-
-  let mi = 0;
-  const el = document.getElementById('results');
-  el.innerHTML = `<div class="loading"><div class="ring"></div><p id="lmsg">${MSGS[0]}</p></div>`;
-  const iv = setInterval(() => { mi=(mi+1)%MSGS.length; const lm=document.getElementById('lmsg'); if(lm) lm.textContent=MSGS[mi]; btn.innerHTML=`⟳ ${MSGS[mi]}`; }, 2000);
-
-  const hookPad = getHookPad();
-  const hookTxt = hookPad ? `PADRÃO DE HOOK ESCOLHIDO: ${hookPad}. Use esse padrão na headline e no gancho principal.` : '';
-  const abordagem = getAbordagem();
-
-  const fmtInstrucoes = {
-    carrossel: `Crie um carrossel de 9 slides com a anatomia BrandsDecoded. Slide 1 = capa com headline viral. Slides 2-8 = desenvolvimento narrativo. Slide 9 = CTA diretivo. Para cada slide: titulo_slide (tag do slide), texto_slide (copy completo do slide), instrucao_visual (como diagramar).`,
-    reels: `Crie um roteiro de Reels de 30-60 segundos. 6 "slides" = cenas do vídeo. Slide 1 = abertura impactante (0-3s). Slides 2-5 = desenvolvimento. Slide 6 = CTA final. Para cada cena: titulo_slide (o que acontece na cena), texto_slide (fala ou texto na tela), instrucao_visual (o que mostrar visualmente).`,
-    stories: `Crie uma sequência de 6 stories. Slide 1 = gancho. Slides 2-4 = conteúdo. Slide 5 = engajamento (enquete ou pergunta). Slide 6 = CTA. Para cada story: titulo_slide (tipo do story), texto_slide (texto principal), instrucao_visual (elemento visual ou interativo).`,
-    meme: `Crie 3 opções de meme sobre o tema. Cada "slide" é uma opção de meme. Para cada: titulo_slide (formato do meme), texto_slide (texto de cima + texto de baixo), instrucao_visual (imagem ou template sugerido).`,
-    curiosidades: `Busque NA INTERNET 5 curiosidades REAIS, surpreendentes e verificáveis sobre o tema — cobrindo diferentes ângulos: ingredientes, história, mitos e verdades, e comportamento alimentar. Cada curiosidade deve ser um "Você sabia que..." que genuinamente surpreende. Para cada curiosidade gerar: titulo (headline impactante que para o scroll), texto (a curiosidade explicada em 2-3 frases com dado concreto e fonte quando possível), gancho (como conectar essa curiosidade ao universo do Hamburguer das Meninas de forma natural e aconchegante), tipo (ingrediente | historia | mito | comportamento).`
-  };
-
-  const prompt = `Você é a Máquina de Carrosséis — um sistema editorial calibrado por dados reais de 1.168 posts analisados. Seu padrão de comparação não é "está correto?" mas sim "um repórter da Folha de S.Paulo escreveria assim?". Você tem opinião editorial e rejeita qualquer AI slop antes de entregar.
-
-MARCA: Hamburguer das Meninas — hamburgueria aconchegante e acolhedor de Camboriú/SC.
-TEMA/TENDÊNCIA: ${tema}
-FORMATO: ${fmt}
-ABORDAGEM: ${abordagem}
-${hookTxt}
-
-TOM DE VOZ: Aconchegante, acolhedor, personalidade feminina e autêntica. Mistura português formal com informal. Próximo, humano. NUNCA genérico, NUNCA motivacional vazio, NUNCA robótico.
-
-REGRA DE OURO: O post NÃO vende hamburguer diretamente. Fala de cultura, comportamento e tendência usando a hamburgueria como ponte. Pessoas compartilham porque se identificam — não porque viram propaganda.
-
-══════════════════════════════════════
-ETAPA 1 — TRIAGEM INTERNA (executar antes de qualquer copy)
-Analisar o tema em 4 camadas:
-• Transformação: o que mudou, com costura e consequência
-• Fricção central: a tensão real do fenômeno
-• Ângulo narrativo dominante: a leitura mais forte para o post
-• Evidências: dados, fatos, exemplos observáveis (A, B, C)
-
-══════════════════════════════════════
-ETAPA 2 — HEADLINES (gerar 3 opções de capa)
-Cada opção DEVE usar um padrão diferente abaixo. Validar CADA headline pelo checklist antes de incluir.
-
-PADRÕES COM LIFT POSITIVO COMPROVADO:
-• "A Morte de X: Como Y Nos Tornou Z" — lift +119%, média 57k likes
-  Ex: "A Morte do Gosto Pessoal: Como a Dopamina Digital Nos Tornou Indiferentes" — 115k
-• "Por que [Geração] está [comportamento inesperado]?" — lift +119%, média 28k likes
-  Ex: "Por que os Millennials Estão Sofrendo com Crises de Meia-Idade aos 30 Anos?" — 53k
-• "Investigando [fenômeno surpreendente]" — lift +99%, média 18k likes
-  Ex: "Investigando a Ascensão das Festas Diurnas em Coffee Shops" — 27k
-• "[Enquadramento]: [Hook]" formato dois-pontos — média 40k likes
-  Ex: "O fenômeno brasileiro que quebrou o algoritmo: um frei às 4h virou o streamer mais assistido" — 13k
-• Contraste/Antítese — dois pólos em tensão, média 22k likes
-• Provocação existencial — pergunta retórica de reflexão profunda, média 14k likes
-
-FORMATO RÍGIDO — Investigação Cultural:
-Estrutura: [Reenquadramento provocativo]: [Hook de curiosidade]
-✅ CORRETO: "A corrida virou a nova balada: por que a Gen Z trocou o bar pelo asfalto às 6h"
-❌ ERRADO: "A corrida está crescendo no Brasil" — declaração direta sem tensão
-
-CHECKLIST DE REJEIÇÃO (reprovar e reescrever se cair em qualquer um):
-❌ Declaração direta sem provocar curiosidade
-❌ Começa com "descubra", "saiba", "conheça"
-❌ "a ascensão de" / "o impacto de" / "X mudou para sempre"
-❌ Motivacional vazio — sem dado, sem conflito
-❌ Qualquer conta poderia ter escrito sem trocar uma palavra
-
-LIFTS NEGATIVOS — evitar:
-• Declaração Direta: -29%
-• Revelação genérica ("Descubra/Saiba/Conheça"): -42%
-• Lista/Dicas/Número: formato morto
-
-GATILHOS — cada headline deve ativar pelo menos 2:
-Nostalgia · Medo/Alerta · Indignação · Identidade · Curiosidade · Aspiração
-
-══════════════════════════════════════
-ETAPA 3 — ESPINHA DORSAL
-Antes de escrever os slides, definir:
-• Hook: contextualiza a tensão da headline
-• Mecanismo: por que o fenômeno acontece
-• Prova: A), B), C) com base observável e dados verificáveis
-• Aplicação: consequência para o mundo real da audiência
-• Direção: próximo passo lógico
-
-══════════════════════════════════════
-ETAPA 4 — COPY DOS SLIDES
-Estrutura narrativa obrigatória (${fmt === 'carrossel' ? '9 slides' : fmt === 'reels' ? '6 cenas' : fmt === 'stories' ? '6 stories' : '3 opções'}):
-
-${fmtInstrucoes[fmt]}
-
-ANATOMIA DOS SLIDES (carrossel):
-• Slide 1 — Capa (headline que para o scroll — usar a melhor das 3 opções)
-• Slide 2 — Hook/Problema (dark) — cria tensão, contradição ou dado surpreendente
-• Slide 3 — Contexto/Mecanismo pt.1 (light) — explica o motor por trás do fenômeno
-• Slide 4 — Mecanismo pt.2 (dark) — aprofunda
-• Slide 5 — Prova/Dados (light) — ancora em dados concretos com fonte
-• Slide 6 — Expansão/Virada (dark) — aprofunda ou vira a perspectiva
-• Slide 7 — Aplicação prática (light) — traduz para o mundo real
-• Slide 8 — Direção/CTA (gradient) — call to action diretivo
-• Slide 9 — Fechamento (light) — virada temática genuína, NUNCA resumo
-
-TAGS dos slides: frases concretas que ancoram o conteúdo.
-✅ CORRETO: "O dado que ninguém comenta" / "Por que acontece" / "Na prática"
-❌ ERRADO: "A virada que ninguém esperava" / "Quem entende sai na frente" / "O futuro é agora"
-
-══════════════════════════════════════
-7 PARÂMETROS DE QUALIDADE — validar cada bloco (nota mínima 8/10):
-1. Gramática — artigos presentes em TODOS os substantivos, concordância correta
-2. Fluidez — cada bloco soa como parágrafo de reportagem com conectivos naturais
-3. Anti-AI Slop — zero estruturas binárias, zero cacoetes proibidos
-4. Fatos verificados — todo número tem fonte quando possível
-5. Estrutura — promessas do hook cumpridas antes do CTA
-6. Densidade — âncoras concretas (nome, número, mecanismo específico)
-7. Tom editorial — coloquial direto como jornalista, sem 2ª pessoa no corpo dos slides
-
-5 TESTES FINAIS:
-• Teste da Folha: soaria natural ou traduzido do inglês?
-• Teste da substituição: funciona com qualquer outro sujeito? Se sim → genérico
-• Teste da promessa: todo claim do hook foi cumprido?
-• Teste do artigo: todo substantivo tem artigo?
-• Teste binário: buscou ativamente por "não é X", "sem X", "menos X", "de forma X"?
-
-══════════════════════════════════════
-FILTRO ANTI-AI SLOP — PROIBIDO ABSOLUTAMENTE:
-"Não é X, é Y" / "E isso muda tudo" / "No fim das contas" / "Ao final do dia" / "A pergunta fica:" / "De forma X" / "Cada vez mais" / "Em um mundo onde" / "Vivemos em uma era" / "É preciso" / "Você precisa" / "Simplesmente" / "Basicamente"
-Estruturas binárias: "X diminui, Y acelera" / "Menos X, mais Y" / "Antes: X. Agora: Y." / "Sem X. Sem Y."
-Aberturas proibidas: "Hoje vamos falar sobre..." / "Neste carrossel você vai aprender..." / "Como você provavelmente sabe..."
-CTA proibido: "Espero que tenha gostado!" / "Obrigado por acompanhar" / "Não esqueça de seguir"
-CTA correto: diretivo — "Comenta X, recebe Y" — sem agradecimento
-
-══════════════════════════════════════
-Responda SOMENTE com JSON válido.
-
-${fmt === 'curiosidades' ? `Para o formato curiosidades, use ESTE JSON:
-{
-  "formato": "curiosidades",
-  "tema_final": "Como o tema foi abordado",
-  "capas": [
-    "Opção 1 de título de capa — estilo 'Você sabia que...' ou 'A verdade sobre...'",
-    "Opção 2 — estilo pergunta provocadora",
-    "Opção 3 — estilo revelação surpreendente"
-  ],
-  "gancho": "Frase de abertura que para o scroll",
-  "curiosidades": [
-    {
-      "numero": 1,
-      "tipo": "ingrediente",
-      "titulo": "Headline impactante da curiosidade",
-      "texto": "A curiosidade explicada em 2-3 frases com dado concreto e fonte",
-      "gancho_marca": "Como conectar ao Hamburguer das Meninas de forma natural"
-    }
-  ],
-  "legenda": "Legenda completa para o post com emojis e CTA",
-  "hashtags_nicho": ["#hashtag1"],
-  "hashtags_local": ["#Camboriu"],
-  "hashtags_tendencia": ["#hashtag1"],
-  "melhor_dia": "Quinta ou Sexta",
-  "melhor_horario": "18h-20h",
-  "dica_horario": "Por quê esse horário funciona",
-  "dica_engajamento": "Dica específica para engajar com curiosidades"
-}` : `Para outros formatos, use ESTE JSON:
-{
-  "formato": "${fmt}",
-  "tema_final": "Como o tema foi adaptado para a marca",
-  "capas": [
-    "Opção 1 de título de capa (padrão Morte/Fim)",
-    "Opção 2 de título de capa (padrão Geracional)",
-    "Opção 3 de título de capa (padrão Investigando)"
-  ],
-  "gancho": "O hook principal que para o scroll — frase de impacto",
-  "slides": [
-    {
-      "numero": 1,
-      "titulo_slide": "TAG DO SLIDE EM CAIXA ALTA",
-      "texto_slide": "Texto completo do slide como parágrafo de reportagem",
-      "instrucao_visual": "Como diagramar ou o que mostrar visualmente"
-    }
-  ],
-  "legenda": "Legenda completa para o post com emojis, quebras de linha naturais e CTA no final. Tom aconchegante.",
-  "hashtags_nicho": ["#hashtag1", "#hashtag2"],
-  "hashtags_local": ["#Camboriu", "#LitoralSC"],
-  "hashtags_tendencia": ["#hashtag1", "#hashtag2"],
-  "melhor_dia": "Quinta ou Sexta",
-  "melhor_horario": "18h-20h",
-  "dica_horario": "Por quê esse horário funciona",
-  "dica_engajamento": "Uma dica específica para aumentar o engajamento desse post"
-}`}
-
-JSON puro, sem texto antes ou depois.`;
-
-{
-  "formato": "${fmt}",
-  "tema_final": "Como o tema foi adaptado para a marca",
-  "capas": [
-    "Opção 1 de título de capa (máx 6 palavras)",
-    "Opção 2 de título de capa (máx 6 palavras)",
-    "Opção 3 de título de capa (máx 6 palavras)"
-  ],
-  "gancho": "O hook principal que para o scroll — frase de impacto",
-  "slides": [
-    {
-      "numero": 1,
-      "titulo_slide": "TÍTULO EM CAIXA ALTA",
-      "texto_slide": "Texto de 1-2 linhas do slide",
-      "instrucao_visual": "Como diagramar ou o que mostrar visualmente"
-    }
-  ],
-  "legenda": "Legenda completa para o post com emojis, quebras de linha naturais e CTA no final. Tom aconchegante.",
-  "hashtags_nicho": ["#hashtag1", "#hashtag2"],
-  "hashtags_local": ["#Camboriu", "#LitoralSC"],
-  "hashtags_tendencia": ["#hashtag1", "#hashtag2"],
-  "melhor_dia": "Quinta ou Sexta",
-  "melhor_horario": "18h-20h",
-  "dica_horario": "Por quê esse horário funciona",
-  "dica_engajamento": "Uma dica específica para aumentar o engajamento desse post"
-}
-
-JSON puro, sem texto antes ou depois.`;
-
-  try {
-    const res = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error(e?.error?.message || 'HTTP '+res.status); }
-    const data = await res.json();
-    const txt = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-    let js = txt.replace(/```json|```/g,'').trim();
-    const s=js.indexOf('{'), e2=js.lastIndexOf('}');
-    if(s!==-1&&e2!==-1) js=js.slice(s,e2+1);
-    const parsed = JSON.parse(js);
-    parsed._ts = new Date().toISOString();
-    lastData = parsed;
-    clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '✨ Gerar Novo Post';
-    renderResults(parsed);
-  } catch(err) {
-    clearInterval(iv);
-    btn.disabled = false; btn.innerHTML = '✨ Tentar Novamente';
-    el.innerHTML = `<div class="errbox">⚠️ <strong>Erro:</strong> ${err.message}</div>`;
-  }
-}
-
-const FMT_LABELS = { carrossel:'🎠 Carrossel', reels:'🎬 Reels', stories:'⭕ Stories', meme:'😂 Meme' };
-const FMT_CLASS = { carrossel:'fb-carrossel', reels:'fb-reels', stories:'fb-stories', meme:'fb-meme' };
-
-function renderResults(d) {
-  const el = document.getElementById('results');
-
-  if (activeTab === 'raw') {
-    el.innerHTML = `<pre style="font-size:11px;color:#555;line-height:1.7;white-space:pre-wrap;word-break:break-word;">${JSON.stringify(d,null,2)}</pre>`;
-    return;
-  }
-
-  if (activeTab === 'legenda') {
-    el.innerHTML = `<div class="post-grid">
-      <div class="export-row">
-        <button class="ebtn primary" onclick="cpText(document.querySelector('.legenda-box').textContent)">📋 Copiar legenda</button>
-      </div>
-      <div class="section-card">
-        <div class="section-title">✍️ Legenda pronta</div>
-        <div class="legenda-box">${d.legenda||''}</div>
-      </div>
-      <div class="section-card">
-        <div class="section-title">#️⃣ Hashtags</div>
-        <div class="hashtags-wrap">
-          ${(d.hashtags_nicho||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
-          ${(d.hashtags_tendencia||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
-          ${(d.hashtags_local||[]).map(h=>`<span class="hashtag local">${h}</span>`).join('')}
-        </div>
-      </div>
-    </div>`;
-    return;
-  }
-
-  const now = new Date(d._ts).toLocaleString('pt-BR');
-  let h = `<div class="post-grid">
-    <div class="export-row">
-      <button class="ebtn primary" onclick="copyAll()">📋 Copiar tudo</button>
-      <button class="ebtn" onclick="exportTxt()">⬇ Exportar .txt</button>
-    </div>
-
-    <div class="format-header">
-      <span class="format-badge ${FMT_CLASS[d.formato]||'fb-carrossel'}">${FMT_LABELS[d.formato]||d.formato}</span>
-      <span class="post-meta">Gerado em ${now}</span>
-    </div>`;
-
-  if (d.tema_final) {
-    const modeInfo = d._modo === 'automatico' && d.padrao_hook_escolhido
-      ? `<div style="background:#0a1a0a;border:1px solid rgba(200,242,48,0.2);border-radius:10px;padding:10px 14px;font-size:12px;color:#888;line-height:1.6;margin-bottom:8px;">
-          <strong style="color:#c8f230;">🤖 Modo Automático</strong> — Padrão escolhido pela IA: <strong style="color:#f0f0f4;">${d.padrao_hook_escolhido}</strong>
-         </div>` : '';
-    h += `${modeInfo}<div style="background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:12px 16px;font-size:13px;color:#888;line-height:1.6;">
-      <strong style="color:#555;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;">Tema adaptado</strong><br>${d.tema_final}
-    </div>`;
-  }
-
-  if (d.gancho) {
-    h += `<div class="hook-box">
-      <div class="hook-box-label">🎣 Gancho principal</div>
-      <div class="hook-box-text">"${d.gancho}"</div>
-    </div>`;
-  }
-
-  if (d.capas?.length) {
-    h += `<div class="section-card">
-      <div class="section-title">🖼️ 3 opções de capa</div>
-      <div class="capas-wrap">${d.capas.map((c,i)=>`<div class="capa-item"><div class="capa-num">${i+1}</div><div class="capa-text">${c}</div></div>`).join('')}</div>
-    </div>`;
-  }
-
-  if (d.slides?.length) {
-    const isCTA = (s) => s.numero === d.slides.length;
-    h += `<div class="section-card">
-      <div class="section-title">📋 ${d.formato === 'reels' ? 'Roteiro cena a cena' : d.formato === 'stories' ? 'Sequência de stories' : d.formato === 'meme' ? 'Opções de meme' : 'Slides do carrossel'}</div>
-      <div class="slides-wrap">${d.slides.map(s=>`
-        <div class="slide ${isCTA(s)?'slide-cta':''}">
-          <div class="slide-num">Slide ${s.numero} ${isCTA(s)?'· CTA':''}</div>
-          <div class="slide-titulo">${s.titulo_slide||''}</div>
-          <div class="slide-texto">${s.texto_slide||''}</div>
-          ${s.instrucao_visual?`<div class="slide-visual">📐 ${s.instrucao_visual}</div>`:''}
-        </div>`).join('')}
-      </div>
-    </div>`;
-  }
-
-  if (d.legenda) {
-    h += `<div class="section-card">
-      <div class="section-title" style="justify-content:space-between;">
-        <span>✍️ Legenda</span>
-        <button class="ebtn" style="margin:0" onclick="cpText(\`${d.legenda.replace(/`/g,"'")}\`)">Copiar</button>
-      </div>
-      <div class="legenda-box">${d.legenda}</div>
-    </div>`;
-  }
-
-  const allHashtags = [...(d.hashtags_nicho||[]), ...(d.hashtags_tendencia||[]), ...(d.hashtags_local||[])];
-  if (allHashtags.length) {
-    h += `<div class="section-card">
-      <div class="section-title" style="justify-content:space-between;">
-        <span>#️⃣ Hashtags</span>
-        <button class="ebtn" style="margin:0" onclick="cpText('${allHashtags.join(' ')}')">Copiar</button>
-      </div>
-      <div class="hashtags-wrap">
-        ${(d.hashtags_nicho||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
-        ${(d.hashtags_tendencia||[]).map(h=>`<span class="hashtag">${h}</span>`).join('')}
-        ${(d.hashtags_local||[]).map(h=>`<span class="hashtag local">${h}</span>`).join('')}
-      </div>
-    </div>`;
-  }
-
-  if (d.melhor_dia) {
-    h += `<div class="section-card">
-      <div class="section-title">📅 Melhor momento para postar</div>
-      <div class="timing-grid">
-        <div class="timing-item"><div class="timing-label">Dia</div><div class="timing-value">${d.melhor_dia}</div></div>
-        <div class="timing-item"><div class="timing-label">Horário</div><div class="timing-value">${d.melhor_horario||''}</div></div>
-      </div>
-      ${d.dica_horario?`<div style="font-size:12px;color:#555;margin-top:10px;line-height:1.6;">${d.dica_horario}</div>`:''}
-      ${d.dica_engajamento?`<div style="background:#1a1a1a;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:13px;color:#aaa;line-height:1.6;"><strong style="color:#f953c6;">💡 Dica:</strong> ${d.dica_engajamento}</div>`:''}
-    </div>`;
-  }
-
-  h += '</div>';
-  el.innerHTML = h;
-}
-
-function cpText(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    const tmp = document.createElement('div');
-    tmp.style.cssText = 'position:fixed;top:20px;right:20px;background:#f953c6;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;z-index:999;font-family:inherit;';
-    tmp.textContent = 'Copiado! ✓';
-    document.body.appendChild(tmp);
-    setTimeout(() => tmp.remove(), 1500);
-  });
-}
-
-function copyAll() {
-  if (!lastData) return;
-  const d = lastData;
-  let txt = `POSTMENINAS — ${FMT_LABELS[d.formato]||d.formato}\nGerado em: ${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
-  txt += `TEMA: ${d.tema_final}\n\nGANCHO: "${d.gancho}"\n\n`;
-  if (d.capas) txt += `OPÇÕES DE CAPA:\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
-  if (d.slides) txt += `SLIDES:\n${d.slides.map(s=>`Slide ${s.numero}: ${s.titulo_slide}\n${s.texto_slide}\nVisual: ${s.instrucao_visual||''}`).join('\n\n')}\n\n`;
-  txt += `LEGENDA:\n${d.legenda}\n\n`;
-  const tags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
-  txt += `HASHTAGS:\n${tags.join(' ')}\n\n`;
-  txt += `MELHOR MOMENTO: ${d.melhor_dia} às ${d.melhor_horario}\n${d.dica_horario||''}`;
-  navigator.clipboard.writeText(txt).then(() => alert('Post completo copiado!'));
-}
-
-function exportTxt() {
-  if (!lastData) return;
-  const d = lastData;
-  let txt = `POSTMENINAS — ${FMT_LABELS[d.formato]||d.formato}\nGerado em: ${new Date(d._ts).toLocaleString('pt-BR')}\n${'='.repeat(50)}\n\n`;
-  txt += `TEMA ADAPTADO\n${d.tema_final}\n\nGANCHO PRINCIPAL\n"${d.gancho}"\n\n`;
-  if (d.capas) txt += `OPÇÕES DE CAPA\n${d.capas.map((c,i)=>`${i+1}. ${c}`).join('\n')}\n\n`;
-  if (d.slides) txt += `SLIDES\n${d.slides.map(s=>`--- Slide ${s.numero} ---\n${s.titulo_slide}\n${s.texto_slide}\nVisual: ${s.instrucao_visual||''}`).join('\n\n')}\n\n`;
-  txt += `LEGENDA COMPLETA\n${d.legenda}\n\n`;
-  const tags = [...(d.hashtags_nicho||[]),...(d.hashtags_tendencia||[]),...(d.hashtags_local||[])];
-  txt += `HASHTAGS\n${tags.join(' ')}\n\n`;
-  txt += `TIMING\nDia: ${d.melhor_dia}\nHorário: ${d.melhor_horario}\n${d.dica_horario||''}\n\nDICA DE ENGAJAMENTO\n${d.dica_engajamento||''}`;
-  const a = document.createElement('a');
-  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt);
-  a.download = `postmeninas_${new Date().toISOString().slice(0,10)}.txt`;
-  a.click();
+  copyGanchos();
 }
 </script>
 </body>
